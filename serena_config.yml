@@ -1,0 +1,39 @@
+# Serena MCP Server Configuration for dodis_godis_mobile
+# Reference: https://oraios.github.io/serena/
+
+project_name: "dodis_godis_mobile"
+project_type: "flutter"
+language: "dart"
+
+# Web Dashboard configuration
+web_dashboard_open_on_launch: false
+web_dashboard_port: 9121
+
+# Language Server Backend settings
+backend: "lsp"
+language_servers:
+  dart:
+    command: "dart"
+    args: ["language-server", "--protocol-traffic-log=/tmp/dart_lsp.log"]
+    file_extensions: [".dart"]
+
+# Directory & file exclusions to optimize token usage and indexing performance
+ignore_patterns:
+  - ".git/**"
+  - ".dart_tool/**"
+  - "build/**"
+  - ".idea/**"
+  - "ios/Pods/**"
+  - "ios/.symlinks/**"
+  - "android/.gradle/**"
+  - "android/app/build/**"
+  - "**/*.g.dart"
+  - "**/*.freezed.dart"
+
+# Memory and Context Configuration
+context:
+  max_tokens: 32000
+  enable_symbol_index: true
+  enable_semantic_search: true
+  persist_memories: true
+  memory_store_path: ".serena/memories.json"

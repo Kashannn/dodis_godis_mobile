@@ -1,0 +1,39 @@
+# Serena Project Configuration for dodis_godis_mobile
+# Official Reference: https://oraios.github.io/serena/01-about/000_intro.html
+
+project_name: "dodis_godis_mobile"
+project_type: "flutter"
+language: "dart"
+
+# Backend configuration
+backend: "lsp"
+
+# Language Server Protocol settings for Dart/Flutter
+language_servers:
+  dart:
+    command: "dart"
+    args:
+      - "language-server"
+    file_extensions:
+      - ".dart"
+
+# Paths to ignore to reduce token consumption and indexing latency
+ignore_patterns:
+  - ".git/**"
+  - ".dart_tool/**"
+  - "build/**"
+  - ".idea/**"
+  - "ios/Pods/**"
+  - "ios/.symlinks/**"
+  - "android/.gradle/**"
+  - "android/app/build/**"
+  - "**/*.g.dart"
+  - "**/*.freezed.dart"
+
+# Memories directory configuration
+memories_dir: "memories"
+
+# Security & Behavior
+read_only: false
+web_dashboard_open_on_launch: false
+web_dashboard_port: 9121
