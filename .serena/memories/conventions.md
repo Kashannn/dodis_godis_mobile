@@ -3,6 +3,8 @@
 ## 1. Scaffold Requirement
 - **MANDATORY:** Every view screen under `lib/presentation/*/view/` MUST use `AppCustomScaffold` (`lib/core/utils/app_custom_scaffold.dart`).
 - Always keep `safeBottom: true` to avoid gesture bar overlap on iOS and Android.
+- System bars (Status bar & Navigation bar) are completely transparent via `AnnotatedRegion<SystemUiOverlayStyle>`.
+- `systemNavigationBarContrastEnforced: false` is enforced so Android does not render an opaque grey/black scrim covering bottom elements.
 - Do NOT nest additional `SafeArea` widgets inside the body unless explicitly overriding safe padding.
 - `AppCustomScaffold` automatically provides tap-to-unfocus for text inputs (`enableUnfocus: true`).
 

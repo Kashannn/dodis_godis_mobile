@@ -23,6 +23,8 @@ All notable changes and architectural evolutions of the **Dodis Godis Mobile** p
   - Added `.agents/mcp.json` for agentic environments.
 - **Unified Custom Scaffold Architecture**:
   - Implemented `AppCustomScaffold` (`lib/core/utils/app_custom_scaffold.dart`) featuring integrated `SafeArea`, customizable `safeBottom`, background color fallback, keyboard auto-unfocus, and app bar/drawer slots.
+  - Added edge-to-edge transparent system bars support via `AnnotatedRegion<SystemUiOverlayStyle>` with `systemNavigationBarColor: Colors.transparent`, `systemNavigationBarDividerColor: Colors.transparent`, and `systemNavigationBarContrastEnforced: false`.
+  - Added `safeBottom` wrapping for `bottomNavigationBar` and `bottomSheet` so system navigation bar never covers bottom content.
 
 ### Changed
 - **Presentation Layer Migration**:

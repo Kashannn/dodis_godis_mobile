@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppCustomScaffold extends StatelessWidget {
   const AppCustomScaffold({
@@ -20,6 +21,11 @@ class AppCustomScaffold extends StatelessWidget {
     this.safeLeft = true,
     this.safeRight = true,
     this.enableUnfocus = true,
+    this.extendBody = false,
+    this.extendBodyBehindAppBar = false,
+    this.systemUiOverlayStyle,
+    this.statusBarIconBrightness = Brightness.dark,
+    this.systemNavigationBarIconBrightness = Brightness.dark,
   });
 
   final Key? scaffoldKey;
@@ -39,9 +45,28 @@ class AppCustomScaffold extends StatelessWidget {
   final bool safeLeft;
   final bool safeRight;
   final bool enableUnfocus;
+  final bool extendBody;
+  final bool extendBodyBehindAppBar;
+  final SystemUiOverlayStyle? systemUiOverlayStyle;
+  final Brightness statusBarIconBrightness;
+  final Brightness systemNavigationBarIconBrightness;
 
   @override
   Widget build(BuildContext context) {
+    final effectiveOverlayStyle = systemUiOverlayStyle ??
+        SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: statusBarIconBrightness,
+          statusBarBrightness: statusBarIconBrightness == Brightness.light
+              ? Brightness.dark
+              : Brightness.light,
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarDividerColor: Colors.transparent,
+          systemNavigationBarIconBrightness: systemNavigationBarIconBrightness,
+          systemNavigationBarContrastEnforced: false,
+          systemStatusBarContrastEnforced: false,
+        );
+
     Widget content = SafeArea(
       top: safeTop,
       bottom: safeBottom,
@@ -58,18 +83,35 @@ class AppCustomScaffold extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: appBar,
-      body: content,
-      backgroundColor: backgroundColor,
-      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      bottomNavigationBar: bottomNavigationBar,
-      floatingActionButton: floatingActionButton,
-      floatingActionButtonLocation: floatingActionButtonLocation,
-      drawer: drawer,
-      endDrawer: endDrawer,
-      bottomSheet: bottomSheet,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: effectiveOverlayStyle,
+      child: Scaffold(
+        key: scaffoldKey,
+        appBar: appBar,
+        body: content,
+        backgroundColor: backgroundColor,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+        extendBody: extendBody,
+        extendBodyBehindAppBar: extendBodyBehindAppBar,
+        bottomNavigationBar: bottomNavigationBar != null && safeBottom
+            ? SafeArea(
+                top: false,
+                bottom: true,
+                child: bottomNavigationBar!,
+              )
+            : bottomNavigationBar,
+        floatingActionButton: floatingActionButton,
+        floatingActionButtonLocation: floatingActionButtonLocation,
+        drawer: drawer,
+        endDrawer: endDrawer,
+        bottomSheet: bottomSheet != null && safeBottom
+            ? SafeArea(
+                top: false,
+                bottom: true,
+                child: bottomSheet!,
+              )
+            : bottomSheet,
+      ),
     );
   }
 }

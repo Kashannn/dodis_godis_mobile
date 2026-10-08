@@ -244,7 +244,7 @@ class _SplashViewBodyState extends State<_SplashViewBody>
 
                       // Bottom Packaging Banner & Interactive Button
                       Positioned(
-                        bottom: h * 0.03,
+                        bottom: h * 0.01,
                         left: 0,
                         right: 0,
                         child: FadeTransition(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../app/router/routes.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
@@ -76,87 +79,6 @@ class _DodisGameContentState extends State<_DodisGameContent> {
     );
   }
 
-  void _showRulesSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => Container(
-        height: 0.75.sh,
-        padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(
-          color: kBackgroundColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 40.w,
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              '$kRules: $kDodisGameTitle',
-              style: kHeadingMedium,
-            ),
-            SizedBox(height: 14.h),
-            Expanded(
-              child: ListView(
-                children: [
-                  _ruleItem(
-                    step: '1. PREPARATION',
-                    text:
-                        'Spread candies across the outer track of the gameboard. Spaces without a specific candy icon receive standard candy tokens. Each player selects a candy container and places it on the start space.',
-                  ),
-                  _ruleItem(
-                    step: '2. ON YOUR TURN',
-                    text:
-                        'Roll the dice and move clockwise by the rolled number of steps. Complete the challenge on your tile to win the candy. You choose which rival to challenge.',
-                  ),
-                  _ruleItem(
-                    step: '3. HOW TO WIN',
-                    text:
-                        'The player who claims the final candy from the bag or board wins the game and becomes the Dodis Godis Champion!',
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _ruleItem({required String step, required String text}) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 14.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            step,
-            style: kHeadingXSmall.copyWith(color: kCandyRed),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            text,
-            style: kBodyMedium.copyWith(
-              color: kPrimaryTextColor,
-              height: 1.45,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return AppCustomScaffold(
@@ -185,7 +107,7 @@ class _DodisGameContentState extends State<_DodisGameContent> {
           IconButton(
             tooltip: kRules,
             icon: const Icon(Icons.info_outline_rounded, color: kPrimaryTextColor),
-            onPressed: () => _showRulesSheet(context),
+            onPressed: () => context.push(Routes.rules),
           ),
         ],
       ),

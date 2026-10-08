@@ -17,6 +17,21 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  // Enable true edge-to-edge transparent system bars
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarContrastEnforced: false,
+      systemStatusBarContrastEnforced: false,
+    ),
+  );
+
   runApp(const DodisGodisApp());
 }
 
@@ -33,6 +48,21 @@ class DodisGodisApp extends StatelessWidget {
         return MaterialApp.router(
           title: kAppName,
           debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+            appBarTheme: const AppBarTheme(
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.transparent,
+                statusBarIconBrightness: Brightness.dark,
+                statusBarBrightness: Brightness.light,
+                systemNavigationBarColor: Colors.transparent,
+                systemNavigationBarDividerColor: Colors.transparent,
+                systemNavigationBarIconBrightness: Brightness.dark,
+                systemNavigationBarContrastEnforced: false,
+                systemStatusBarContrastEnforced: false,
+              ),
+            ),
+          ),
           routerConfig: AppRouter().router,
         );
       },
