@@ -16,6 +16,12 @@ All notable changes and architectural evolutions of the **Dodis Godis Mobile** p
 ## [1.0.0+1] - 2026-10-09
 
 ### Added
+- **High-End 3D Interactive Dice Roll Experience**:
+  - Re-engineered 60fps 3D tumbling dice Lottie animation (`assets/LottieFiles/dice_roll.json`) with genuine 3D physics: high parabolic toss, 3D multi-axis tumbling, beveled chamfered resin edges, realistic double ground shadow scaling with height, impact squash, secondary bounce, and smooth resting ease.
+  - Built an authentic **Casino Felt Rolling Arena Stage** with dynamic ambient radial gradients, pulsing active border, and tap indicators.
+  - Implemented an **Isometric 3D Landed Resin Dice Cube** (`Isometric3DDicePainter`) with porcelain top face, beveled mid-tone & shadow side faces, specular diagonal sheen, and 3D embossed cherry candy pips.
+  - Added physical **Landing Bounce & Squash** elastic animations (`_landController`) and 8-point **Celebration Sparkle Burst Particles** (`SparkleBurstPainter`) when the dice lands.
+  - Synchronized dice rolling sound (`assets/sounds/Dice.mp3`) via `AudioService`.
 - **GSD (Get Stuff Done) Documentation System**: Created `.gsd/` with structured state tracking files (`README.md`, `STATE.md`, `FLOW.md`, `CHANGELOG.md`, `ROADMAP.md`, `ARCHITECTURE.md`, `DECISIONS.md`, `SERENA.md`).
 - **Serena MCP Integration**:
   - Added `serena_config.yml` for Flutter/Dart language server & project indexing.

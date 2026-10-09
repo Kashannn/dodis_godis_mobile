@@ -29,7 +29,7 @@ class DodisGameBloc extends Bloc<DodisGameEvent, DodisGameState> {
       message: 'Rolling dice...',
     ));
 
-    await Future.delayed(const Duration(milliseconds: 600));
+    await Future.delayed(const Duration(milliseconds: 1300));
 
     final roll = _random.nextInt(6) + 1;
     final player = state.currentPlayer;

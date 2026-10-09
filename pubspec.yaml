@@ -23,6 +23,8 @@ dependencies:
   flutter_scene: ^0.24.1
 
   get_it: ^9.2.1
+  lottie: ^3.6.1
+  audioplayers: ^6.8.1
 
 
 dev_dependencies:
@@ -40,3 +42,4 @@ flutter:
     - assets/fonts/
     - assets/images/
     - assets/LottieFiles/
+    - assets/sounds/

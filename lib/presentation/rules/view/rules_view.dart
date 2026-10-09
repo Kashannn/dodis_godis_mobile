@@ -217,6 +217,7 @@ class _RulesViewState extends State<RulesView> {
       backgroundColor: kBackgroundColor,
       safeBottom: true,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: kWhite,
         elevation: 0.5,
         title: Text(

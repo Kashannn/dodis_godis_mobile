@@ -22,3 +22,9 @@ const String kChallengePullStringImage = 'assets/images/challenge_pull_string.jp
 const String kChallengeSpinningTopImage = 'assets/images/challenge_spinning_top.jpg';
 const String kChallengeSuperSourImage = 'assets/images/challenge_super_sour.jpg';
 
+// Lottie Animations
+const String kDiceRollLottie = 'assets/LottieFiles/dice_roll.json';
+
+// Audio Sounds
+const String kDiceRollSound = 'sounds/Dice.mp3';
+
