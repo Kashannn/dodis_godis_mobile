@@ -16,12 +16,15 @@
 | Module / Screen | Route | BLoC / State Handler | Scaffold Standard | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Splash Screen** | `/` | `SplashBloc` | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (Candy bag animation + entrance) |
+| **Tap To Play** | `/tapToPlayScreen` | Local State | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (3D Sweets floating UI, customizable button) |
+| **How To Play** | `/howToPlayScreen` | Local State | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (3D Board asset, reusable AppBar & button, 6 rules) |
 | **Home Dashboard** | `/home` | `HomeBloc` | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (Categories, Hero banner, QR trigger) |
-| **Dodis Game (Board)** | `/dodis-game` | `DodisGameBloc` | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (Wheel painter, dice roll, candy tracker) |
+| **Dodis Game (Board)** | `/dodis-game` | `DodisGameBloc` | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (3D Board & pawns, player capsules, dice stage, result card) |
 | **Yatzy** | `/yatzy` | `YatzyBloc` | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (Dice widget, hold toggles, protocol scoring) |
 | **Date Cards** | `/date-cards` | `DateCardsBloc` | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (Category chips, card carousel, 18+ mode) |
-| **Rules & Guides** | `/rules` | Local State (`_RulesViewState`) | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (Searchable filter, categorized expandable rules) |
-| **Online Play / Cast** | `/online-play` | Local State (`_OnlinePlayViewState`) | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (TV casting card, participant roster, camera toggle) |
+| **Party Setup (Pass & Play)** | `/createParty` | `CreatePartyBloc` | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (3D kids hero, 6 cartoon avatars, dynamic player inputs) |
+| **Choose Holder** | `/chooseHolder` | `ChooseHolderBloc` | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (Dynamic player grid, active color selector, Ready button) |
+| **Online Play / Cast** | `/online-play` | Local State | `AppCustomScaffold` (`safeBottom: true`) | ✅ Complete (TV casting card, participant roster, camera toggle) |
 
 ---
 

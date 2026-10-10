@@ -46,3 +46,47 @@ const LinearGradient kHeroCardGradient = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
 );
+
+// Party Setup Colors & Gradients
+const Color kPartySkyLight = Color(0xFFE2F0FD);
+const Color kPartySkyMid = Color(0xFFEBF5FF);
+const Color kPartySkyWhite = Color(0xFFF7FBFF);
+const Color kPartyPrimaryBlue = Color(0xFF0075ED);
+const Color kPartyDarkBlue = Color(0xFF005ECB);
+const Color kPartyLightBlue = Color(0xFF2694FF);
+const Color kPartyCardBackground = Color(0xFFFFFFFF);
+const Color kPartyCardShadow = Color(0xFF0C2461);
+const Color kPartyInputFill = Color(0xFFF6F9FC);
+const Color kPartyInputBorder = Color(0xFFD6E4EE);
+const Color kPartyUnselectedFill = Color(0xFFF3F7FA);
+const Color kPartyTextDark = Color(0xFF1E293B);
+const Color kPartyTextMuted = Color(0xFF64748B);
+const Color kPartyTextSubtle = Color(0xFF94A3B8);
+
+// Start Party Button Colors
+const Color kPartyButtonGreenLight = Color(0xFF45D461);
+const Color kPartyButtonGreenMid = Color(0xFF28B744);
+const Color kPartyButtonGreenDark = Color(0xFF1A9331);
+const Color kPartyButtonGreenBorder = Color(0xFF116522);
+
+const List<Color> kPartyButtonGradient = [
+  kPartyButtonGreenLight,
+  kPartyButtonGreenMid,
+  kPartyButtonGreenDark,
+];
+
+const List<Color> kPartyBlueGradient = [
+  kPartyLightBlue,
+  kPartyPrimaryBlue,
+  kPartyDarkBlue,
+];
+
+// Holder Selection Palette Colors
+const Color kHolderBlue = Color(0xFF0084FF);
+const Color kHolderGreen = Color(0xFF4CD137);
+const Color kHolderOrange = Color(0xFFFFA502);
+const Color kHolderPurple = Color(0xFF9C27B0);
+const Color kHolderRed = Color(0xFFFF5252);
+const Color kHolderYellow = Color(0xFFFFB142);
+
+

@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_images.dart';
 import '../../../data/models/challenge_model.dart';
 
 class GamePlayer extends Equatable {
@@ -8,6 +11,9 @@ class GamePlayer extends Equatable {
   final int candyCount;
   final int currentTile;
   final int avatarIndex;
+  final String? avatarPath;
+  final Color? holderColor;
+  final String? holderColorName;
 
   const GamePlayer({
     required this.id,
@@ -15,6 +21,9 @@ class GamePlayer extends Equatable {
     required this.candyCount,
     required this.currentTile,
     required this.avatarIndex,
+    this.avatarPath,
+    this.holderColor,
+    this.holderColorName,
   });
 
   GamePlayer copyWith({
@@ -22,6 +31,9 @@ class GamePlayer extends Equatable {
     int? candyCount,
     int? currentTile,
     int? avatarIndex,
+    String? avatarPath,
+    Color? holderColor,
+    String? holderColorName,
   }) {
     return GamePlayer(
       id: id,
@@ -29,11 +41,23 @@ class GamePlayer extends Equatable {
       candyCount: candyCount ?? this.candyCount,
       currentTile: currentTile ?? this.currentTile,
       avatarIndex: avatarIndex ?? this.avatarIndex,
+      avatarPath: avatarPath ?? this.avatarPath,
+      holderColor: holderColor ?? this.holderColor,
+      holderColorName: holderColorName ?? this.holderColorName,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, candyCount, currentTile, avatarIndex];
+  List<Object?> get props => [
+        id,
+        name,
+        candyCount,
+        currentTile,
+        avatarIndex,
+        avatarPath,
+        holderColor,
+        holderColorName,
+      ];
 }
 
 enum DodisGameStatus {
@@ -68,11 +92,48 @@ class DodisGameState extends Equatable {
   });
 
   factory DodisGameState.initial() {
-    return const DodisGameState(
+    return DodisGameState(
       players: [
-        GamePlayer(id: '1', name: 'Player 1', candyCount: 0, currentTile: 0, avatarIndex: 0),
-        GamePlayer(id: '2', name: 'Player 2', candyCount: 0, currentTile: 0, avatarIndex: 1),
-        GamePlayer(id: '3', name: 'Player 3', candyCount: 0, currentTile: 0, avatarIndex: 2),
+        GamePlayer(
+          id: '1',
+          name: 'You',
+          candyCount: 3,
+          currentTile: 0,
+          avatarIndex: 0,
+          avatarPath: kPlayerAvatarList[0],
+          holderColor: kHolderBlue,
+          holderColorName: 'Blue',
+        ),
+        GamePlayer(
+          id: '2',
+          name: 'Sara',
+          candyCount: 2,
+          currentTile: 6,
+          avatarIndex: 1,
+          avatarPath: kPlayerAvatarList[1],
+          holderColor: kHolderOrange,
+          holderColorName: 'Orange',
+        ),
+        GamePlayer(
+          id: '3',
+          name: 'Omar',
+          candyCount: 1,
+          currentTile: 12,
+          avatarIndex: 2,
+          avatarPath: kPlayerAvatarList[2],
+          holderColor: kHolderPurple,
+          holderColorName: 'Purple',
+        ),
+        GamePlayer(
+          id: '4',
+          name: 'Noah',
+          candyCount: 0,
+          currentTile: 18,
+          avatarIndex: 3,
+          avatarPath: kPlayerAvatarList[3],
+          holderColor: kHolderGreen,
+          holderColorName: 'Green',
+        ),
       ],
       currentPlayerIndex: 0,
       lastDiceRoll: 1,
@@ -80,7 +141,7 @@ class DodisGameState extends Equatable {
       currentChallenge: null,
       selectedOpponent: null,
       status: DodisGameStatus.waitingForRoll,
-      message: 'Roll the dice to make your first move!',
+      message: 'Tap the dice to make your move!',
       totalCandiesInBag: 30,
     );
   }

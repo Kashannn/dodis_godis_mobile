@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../presentation/create_join_party/bloc/create_party_bloc.dart';
 import '../../presentation/date_cards/bloc/date_cards_bloc.dart';
 import '../../presentation/dodis_game/bloc/dodis_game_bloc.dart';
 import '../../presentation/home/bloc/home_bloc.dart';
@@ -27,4 +28,5 @@ Future<void> initDependencies() async {
   sl.registerFactory<DodisGameBloc>(() => DodisGameBloc());
   sl.registerFactory<YatzyBloc>(() => YatzyBloc());
   sl.registerFactory<DateCardsBloc>(() => DateCardsBloc());
+  sl.registerFactory<CreatePartyBloc>(() => CreatePartyBloc());
 }

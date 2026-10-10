@@ -1,11 +1,17 @@
 import 'package:go_router/go_router.dart';
 
+import '../../presentation/create_join_party/bloc/create_party_state.dart';
+import '../../presentation/create_join_party/view/choose_holder_screen.dart';
+import '../../presentation/create_join_party/view/create_party_screen.dart';
 import '../../presentation/date_cards/view/date_cards_view.dart';
+import '../../presentation/dodis_game/bloc/dodis_game_state.dart';
 import '../../presentation/dodis_game/view/dodis_game_view.dart';
 import '../../presentation/home/view/home_view.dart';
 import '../../presentation/online_play/view/online_play_view.dart';
+import '../../presentation/rules/view/how_to_play_screen.dart';
 import '../../presentation/rules/view/rules_view.dart';
 import '../../presentation/splash/view/splash_view.dart';
+import '../../presentation/splash/view/tap_to _play_screen.dart';
 import '../../presentation/yatzy/view/yatzy_view.dart';
 import 'routes.dart';
 
@@ -26,6 +32,12 @@ class AppRouter {
             const NoTransitionPage<void>(child: SplashView()),
       ),
       GoRoute(
+        path: Routes.tapToPlay,
+        name: Routes.tapToPlay,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage<void>(child: TapToPlayScreen()),
+      ),
+      GoRoute(
         path: Routes.home,
         name: Routes.home,
         pageBuilder: (context, state) =>
@@ -34,8 +46,12 @@ class AppRouter {
       GoRoute(
         path: Routes.dodisGame,
         name: Routes.dodisGame,
-        pageBuilder: (context, state) =>
-            const NoTransitionPage<void>(child: DodisGameView()),
+        pageBuilder: (context, state) {
+          final players = state.extra as List<GamePlayer>?;
+          return NoTransitionPage<void>(
+            child: DodisGameView(initialPlayers: players),
+          );
+        },
       ),
       GoRoute(
         path: Routes.yatzy,
@@ -60,6 +76,36 @@ class AppRouter {
         name: Routes.onlinePlay,
         pageBuilder: (context, state) =>
             const NoTransitionPage<void>(child: OnlinePlayView()),
+      ),
+
+      GoRoute(
+        path: Routes.howToPlayScreen,
+        name: Routes.howToPlayScreen,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage<void>(child: HowToPlayScreen()),
+      ),
+      GoRoute(
+        path: Routes.createParty,
+        name: Routes.createParty,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage<void>(child: CreatePartyScreen()),
+      ),
+      GoRoute(
+        path: Routes.chooseHolder,
+        name: Routes.chooseHolder,
+        pageBuilder: (context, state) {
+          final players = state.extra as List<PartyPlayerModel>? ??
+              CreatePartyState.initial().players;
+          return NoTransitionPage<void>(
+            child: ChooseHolderScreen(players: players),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.createJoinParty,
+        name: Routes.createJoinParty,
+        pageBuilder: (context, state) =>
+            const NoTransitionPage<void>(child: CreatePartyScreen()),
       ),
     ],
   );

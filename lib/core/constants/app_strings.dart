@@ -246,3 +246,56 @@ const String kChallenge9Desc =
     'Pop a super sour candy into your mouth and suck on it for 15 seconds without making a face, squinting, or grimacing! Maintain a completely straight poker face to win.';
 const String kChallenge9Tag = 'Endurance';
 
+// Tap To Play Screen
+const String kTheSweetestPartyGame = 'The Sweetest Party Game!';
+const String kTapToPlay = 'Tap to Play';
+
+// How To Play Screen
+const String kHowToPlayTitle = 'How to Play';
+const String kNext = 'Next';
+const String kRule1PlaceCandy = 'Place candy around the edge.';
+const String kRule2ChooseHolder = 'Choose a candy holder & start.';
+const String kRule3RollDice = 'Roll the dice and move.';
+const String kRule4DoChallenge = 'Do the challenge on the space.';
+const String kRule5PickOpponent = 'Pick an opponent to challenge.';
+const String kRule6GetLastCandy = 'Get the last candy to win!';
+
+// Create & Join Party Screen Strings
+const String kJoinAParty = 'Join a Party';
+const String kPlayWithYourFriends = 'Play with your friends';
+const String kCreateNewParty = 'Create New Party';
+const String kCreateNewPartyDesc = 'Start a new game and share the code';
+const String kJoinExistingParty = 'Join Existing Party';
+const String kJoinExistingPartyDesc = 'Enter the party code to join';
+const String kPlayWithFriends = 'Play with Friends';
+
+// Create Party Screen (Single-Device / Pass & Play)
+const String kCreatePartyTitle = 'Create Party';
+const String kPartyNameLabel = 'Party Name';
+const String kDefaultPartyName = 'Sweet Friends';
+const String kNumberOfPlayersLabel = 'Number of Players';
+const String kPlayersRangeLabel = 'Players (2–6)';
+const String kPlayerNamesLabel = 'Player Names';
+const String kGameModeLabel = 'Game Mode';
+const String kGameModeClassic = 'Classic';
+const String kGameModeQuick = 'Quick';
+const String kCreatePartyButton = 'Create Party';
+const String kStartPartyButton = 'Start Party';
+const String kSingleDeviceBadge = 'Pass & Play • Single Device';
+const String kPartyCreatedSuccess = 'Party started successfully!';
+
+// Choose Holder Screen Strings
+const String kChooseYourHolderTitle = 'Choose Your Holder';
+const String kChooseYourColor = 'Choose Your Color';
+const String kReadyButton = 'Ready!';
+
+
+// Join Party Screen
+const String kJoinPartyTitle = 'Join Party';
+const String kEnterPartyCodeLabel = 'Enter Party Code';
+const String kJoinButton = 'Join';
+const String kOrDivider = 'Or';
+const String kScanQrCodeTitle = 'Scan QR Code';
+const String kScanQrCodeSubtitle = '(If your friend shares QR)';
+const String kEnterValidCode = 'Please enter a valid party code';
+const String kJoiningParty = 'Joining party...';

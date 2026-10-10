@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'dodis_game_state.dart';
+
 abstract class DodisGameEvent extends Equatable {
   const DodisGameEvent();
 
@@ -42,3 +44,12 @@ class AddPlayerEvent extends DodisGameEvent {
 class ResetGameEvent extends DodisGameEvent {
   const ResetGameEvent();
 }
+
+class SetPartyPlayersEvent extends DodisGameEvent {
+  final List<GamePlayer> players;
+  const SetPartyPlayersEvent(this.players);
+
+  @override
+  List<Object?> get props => [players];
+}
+

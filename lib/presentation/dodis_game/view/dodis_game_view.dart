@@ -2,29 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/router/routes.dart';
-
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
-import '../../../core/constants/app_styles.dart';
 import '../../../core/di/injection_container.dart';
 import '../../../core/utils/app_custom_scaffold.dart';
+import '../../splash/widgets/tap_to_play_button.dart';
 import '../bloc/dodis_game_bloc.dart';
 import '../bloc/dodis_game_event.dart';
 import '../bloc/dodis_game_state.dart';
 import '../widgets/active_challenge_modal.dart';
-import '../widgets/board_wheel_painter.dart';
-import '../widgets/dice_roller_widget.dart';
+import '../widgets/game_board_widget.dart';
+import '../widgets/game_bottom_controls_widget.dart';
+import '../widgets/game_dice_roll_overlay.dart';
+import '../widgets/game_turn_result_card_widget.dart';
 import '../widgets/player_roster_bar.dart';
 
 class DodisGameView extends StatelessWidget {
-  const DodisGameView({super.key});
+  final List<GamePlayer>? initialPlayers;
+
+  const DodisGameView({super.key, this.initialPlayers});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<DodisGameBloc>(),
+      create: (context) {
+        final bloc = sl<DodisGameBloc>();
+        if (initialPlayers != null && initialPlayers!.isNotEmpty) {
+          bloc.add(SetPartyPlayersEvent(initialPlayers!));
+        }
+        return bloc;
+      },
       child: const _DodisGameContent(),
     );
   }
@@ -38,17 +48,25 @@ class _DodisGameContent extends StatefulWidget {
 }
 
 class _DodisGameContentState extends State<_DodisGameContent> {
-  bool _showBoardMap = false;
+  bool _showRollOverlay = false;
+
+  void _onRollTapped(BuildContext context) {
+    context.read<DodisGameBloc>().add(const RollDiceEvent());
+  }
 
   void _showAddPlayerDialog(BuildContext context) {
     final controller = TextEditingController();
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
         title: Text(
           kAddPlayerTitle,
-          style: kHeadingSmall,
+          style: GoogleFonts.comicNeue(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w900,
+          ),
         ),
         content: TextField(
           controller: controller,
@@ -61,7 +79,10 @@ class _DodisGameContentState extends State<_DodisGameContent> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(kCancel, style: kBodyMedium),
+            child: Text(
+              kCancel,
+              style: GoogleFonts.comicNeue(fontSize: 16.sp),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -72,215 +93,53 @@ class _DodisGameContentState extends State<_DodisGameContent> {
               }
               Navigator.pop(ctx);
             },
-            child: Text(kAdd, style: kButtonSmallStyle),
+            child: Text(
+              kAdd,
+              style: GoogleFonts.comicNeue(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return AppCustomScaffold(
-      backgroundColor: kBackgroundColor,
-      safeBottom: true,
-      appBar: AppBar(
-        backgroundColor: kWhite,
-        elevation: 0.5,
-        title: Text(
-          kDodisGameTitle,
-          style: kHeadingSmall.copyWith(fontSize: 17.sp),
+  void _showChallengeDetailsModal(
+    BuildContext context,
+    DodisGameState state,
+  ) {
+    if (state.currentChallenge == null) return;
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        padding: EdgeInsets.all(20.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
         ),
-        actions: [
-          IconButton(
-            tooltip: 'Visa spelplan',
-            icon: Icon(
-              _showBoardMap ? Icons.casino_rounded : Icons.map_rounded,
-              color: kCandyBlue,
-            ),
-            onPressed: () {
-              setState(() {
-                _showBoardMap = !_showBoardMap;
-              });
+        child: SafeArea(
+          child: ActiveChallengeModal(
+            challenge: state.currentChallenge!,
+            allPlayers: state.players,
+            currentPlayer: state.currentPlayer,
+            selectedOpponent: state.selectedOpponent,
+            onSelectOpponent: (opp) {
+              context.read<DodisGameBloc>().add(SelectOpponentEvent(opp));
+            },
+            onCompleteChallenge: (win) {
+              Navigator.pop(ctx);
+              context
+                  .read<DodisGameBloc>()
+                  .add(CompleteChallengeEvent(didWin: win));
+              context.read<DodisGameBloc>().add(const NextTurnEvent());
             },
           ),
-          IconButton(
-            tooltip: kRules,
-            icon: const Icon(Icons.info_outline_rounded, color: kPrimaryTextColor),
-            onPressed: () => context.push(Routes.rules),
-          ),
-        ],
-      ),
-      body: BlocConsumer<DodisGameBloc, DodisGameState>(
-          listener: (context, state) {
-            if (state.status == DodisGameStatus.gameOver) {
-              _showGameOverDialog(context, state);
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              child: Column(
-                children: [
-                  // 1. Player Roster Bar
-                  PlayerRosterBar(
-                    players: state.players,
-                    currentPlayerIndex: state.currentPlayerIndex,
-                    onAddPlayer: () => _showAddPlayerDialog(context),
-                  ),
-                  SizedBox(height: 14.h),
-
-                  // 2. Status message banner
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
-                    decoration: BoxDecoration(
-                      color: kWhite,
-                      borderRadius: BorderRadius.circular(14.r),
-                      border: Border.all(color: kBorderColor),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.campaign_rounded, color: kCandyYellow, size: 22.sp),
-                        SizedBox(width: 10.w),
-                        Expanded(
-                          child: Text(
-                            state.message,
-                            style: kHeadingSmall.copyWith(fontSize: 12.5.sp),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 16.h),
-
-                  // 3. Middle Area: Circular Board View OR Dice Roller
-                  if (_showBoardMap) ...[
-                    Container(
-                      padding: EdgeInsets.all(16.w),
-                      decoration: BoxDecoration(
-                        color: kWhite,
-                        borderRadius: BorderRadius.circular(20.r),
-                        border: Border.all(color: kBorderColor),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                kBoardFront,
-                                style: kHeadingSmall.copyWith(fontSize: 13.sp),
-                              ),
-                              Text(
-                                '$kTilePrefix${state.currentPlayer.currentTile + 1} / 24',
-                                style: kHeadingSmall.copyWith(
-                                  fontSize: 12.sp,
-                                  color: kCandyRed,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.h),
-                          SizedBox(
-                            width: 260.w,
-                            height: 260.w,
-                            child: CustomPaint(
-                              painter: BoardWheelPainter(
-                                activeTile: state.currentPlayer.currentTile,
-                                playerPositions:
-                                    state.players.map((p) => p.currentTile).toList(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                  ] else ...[
-                    DiceRollerWidget(
-                      diceValue: state.lastDiceRoll,
-                      isRolling: state.isRollingDice,
-                      onRoll: () {
-                        context.read<DodisGameBloc>().add(const RollDiceEvent());
-                      },
-                    ),
-                    SizedBox(height: 16.h),
-                  ],
-
-                  // 4. Active Challenge or Next Turn Action
-                  if (state.currentChallenge != null &&
-                      state.status == DodisGameStatus.challengeActive) ...[
-                    ActiveChallengeModal(
-                      challenge: state.currentChallenge!,
-                      allPlayers: state.players,
-                      currentPlayer: state.currentPlayer,
-                      selectedOpponent: state.selectedOpponent,
-                      onSelectOpponent: (opp) {
-                        context
-                            .read<DodisGameBloc>()
-                            .add(SelectOpponentEvent(opp));
-                      },
-                      onCompleteChallenge: (win) {
-                        context
-                            .read<DodisGameBloc>()
-                            .add(CompleteChallengeEvent(didWin: win));
-                      },
-                    ),
-                  ] else if (state.status == DodisGameStatus.challengeResolved) ...[
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(16.w),
-                      decoration: BoxDecoration(
-                        color: kCandyGreen.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(18.r),
-                        border: Border.all(color: kCandyGreen.withValues(alpha: 0.3)),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            kRoundFinished,
-                            style: kHeadingSmall.copyWith(
-                              fontSize: 15.sp,
-                              color: kCandyGreen,
-                            ),
-                          ),
-                          SizedBox(height: 6.h),
-                          Text(
-                            '$kRemainingInBagPrefix${state.totalCandiesInBag}$kCandiesSuffix',
-                            style: kBodyMedium.copyWith(color: kPrimaryTextColor),
-                          ),
-                          SizedBox(height: 12.h),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              context.read<DodisGameBloc>().add(const NextTurnEvent());
-                            },
-                            icon: const Icon(Icons.arrow_forward_rounded, color: kWhite),
-                            label: Text(
-                              kNextTurnAction,
-                              style: kButtonSmallStyle.copyWith(fontSize: 13.sp),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: kCandyGreen,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 24.w,
-                                vertical: 12.h,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14.r),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                  SizedBox(height: 24.h),
-                ],
-              ),
-            );
-          },
         ),
+      ),
     );
   }
 
@@ -289,25 +148,267 @@ class _DodisGameContentState extends State<_DodisGameContent> {
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22.r)),
-        title: Text(
-          kGameOverTitle,
-          style: kHeadingMedium,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.r)),
+        title: Row(
+          children: [
+            const Text('🏆 '),
+            Text(
+              kGameOverTitle,
+              style: GoogleFonts.comicNeue(
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ],
         ),
         content: Text(
-          'The last candy has been collected from the bag! ${state.currentPlayer.name} claimed the final piece and wins the game!',
-          style: kBodyMedium.copyWith(color: kPrimaryTextColor),
+          '${state.currentPlayer.name} collected the last candy and is crowned the Candy Champion!',
+          style: GoogleFonts.comicNeue(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
+          ),
         ),
         actions: [
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kPartyButtonGreenMid,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14.r),
+              ),
+            ),
             onPressed: () {
               Navigator.pop(ctx);
               context.read<DodisGameBloc>().add(const ResetGameEvent());
             },
-            child: Text(kPlayAgain, style: kButtonSmallStyle),
+            child: Text(
+              kPlayAgain,
+              style: GoogleFonts.comicNeue(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<DodisGameBloc, DodisGameState>(
+      listener: (context, state) {
+        if (state.status == DodisGameStatus.gameOver) {
+          _showGameOverDialog(context, state);
+        }
+        if (state.status == DodisGameStatus.challengeActive &&
+            _showRollOverlay) {
+          setState(() => _showRollOverlay = false);
+        }
+      },
+      builder: (context, state) {
+        final isChallengeState =
+            state.status == DodisGameStatus.challengeActive ||
+                state.status == DodisGameStatus.challengeResolved;
+
+        return AppCustomScaffold(
+          backgroundColor: const Color(0xFFFFF8E7),
+          safeBottom: true,
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFFE1F5FE),
+                  Color(0xFFFFF9E6),
+                  Color(0xFFFDEAC9),
+                ],
+              ),
+            ),
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  // 1. Main Game Board & UI
+                  Column(
+                    children: [
+                      // Top Utility Bar (Back & Rules)
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 14.w,
+                          vertical: 4.h,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (Navigator.of(context).canPop()) {
+                                  Navigator.of(context).pop();
+                                } else {
+                                  context.go(Routes.home);
+                                }
+                              },
+                              behavior: HitTestBehavior.opaque,
+                              child: Container(
+                                padding: EdgeInsets.all(8.w),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.6),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.arrow_back_ios_rounded,
+                                  color: const Color(0xFF1E293B),
+                                  size: 18.sp,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'DODIS GODIS',
+                              style: GoogleFonts.comicNeue(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w900,
+                                color: const Color(0xFF0288D1),
+                                letterSpacing: 1.0,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () => context.push(Routes.rules),
+                              behavior: HitTestBehavior.opaque,
+                              child: Container(
+                                padding: EdgeInsets.all(8.w),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.6),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.help_outline_rounded,
+                                  color: const Color(0xFF1E293B),
+                                  size: 18.sp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // 2. Dynamic Top Header:
+                      // If just moved: Show "You moved 4 steps! Collected 1 Candy" card (Screenshot 3)
+                      // Otherwise: Show the Player Roster capsules (Screenshot 1)
+                      if (isChallengeState)
+                        GestureDetector(
+                          onTap: () =>
+                              _showChallengeDetailsModal(context, state),
+                          child: GameTurnResultCardWidget(
+                            player: state.currentPlayer,
+                            stepsMoved: state.lastDiceRoll,
+                            challenge: state.currentChallenge,
+                            onContinue: () {
+                              context.read<DodisGameBloc>().add(
+                                    const CompleteChallengeEvent(
+                                      didWin: true,
+                                    ),
+                                  );
+                              context
+                                  .read<DodisGameBloc>()
+                                  .add(const NextTurnEvent());
+                            },
+                          ),
+                        )
+                      else
+                        PlayerRosterBar(
+                          players: state.players,
+                          currentPlayerIndex: state.currentPlayerIndex,
+                          onAddPlayer: () => _showAddPlayerDialog(context),
+                        ),
+
+                      const Spacer(),
+
+                      // 3. Central Game Board with 24 Candy Nodes, Spinner & 3D Pawns
+                      GameBoardWidget(
+                        activeTile: state.currentPlayer.currentTile,
+                        players: state.players,
+                        currentPlayerIndex: state.currentPlayerIndex,
+                      ),
+
+                      const Spacer(),
+
+                      // 4. Bottom Controls:
+                      // If just moved: Green "Continue" Pill Button (Screenshot 3)
+                      // Otherwise: Circular 3D Dice Button + Flanking Icons (Screenshot 1)
+                      if (isChallengeState)
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 24.w,
+                            vertical: 14.h,
+                          ),
+                          child: TapToPlayButton(
+                            text: 'Continue',
+                            width: 320.w,
+                            height: 60.h,
+                            fontSize: 24.sp,
+                            gradientColors: const [
+                              Color(0xFF45D461),
+                              Color(0xFF28B744),
+                              Color(0xFF1A9331),
+                            ],
+                            borderColor: const Color(0xFF116522),
+                            textColor: Colors.white,
+                            onPressed: () {
+                              context.read<DodisGameBloc>().add(
+                                    const CompleteChallengeEvent(
+                                      didWin: true,
+                                    ),
+                                  );
+                              context
+                                  .read<DodisGameBloc>()
+                                  .add(const NextTurnEvent());
+                            },
+                          ),
+                        )
+                      else
+                        GameBottomControlsWidget(
+                          isRolling: state.isRollingDice,
+                          diceValue: state.lastDiceRoll,
+                          onRoll: () => _onRollTapped(context),
+                          onChat: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  '🍬 ${state.currentPlayer.name}’s turn to roll!',
+                                  style: GoogleFonts.comicNeue(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
+                          },
+                          onRules: () => context.push(Routes.rules),
+                        ),
+                    ],
+                  ),
+
+                  // 5. Cinematic Dice Roll Modal Overlay (Screenshot 2)
+                  if (_showRollOverlay)
+                    GameDiceRollOverlay(
+                      currentPlayer: state.currentPlayer,
+                      allPlayers: state.players,
+                      currentPlayerIndex: state.currentPlayerIndex,
+                      diceValue: state.lastDiceRoll,
+                      isRolling: state.isRollingDice,
+                      onRoll: () => _onRollTapped(context),
+                      onClose: () => setState(() => _showRollOverlay = false),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

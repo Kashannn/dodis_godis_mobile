@@ -15,6 +15,19 @@ class DodisGameBloc extends Bloc<DodisGameEvent, DodisGameState> {
     on<NextTurnEvent>(_onNextTurn);
     on<AddPlayerEvent>(_onAddPlayer);
     on<ResetGameEvent>(_onResetGame);
+    on<SetPartyPlayersEvent>(_onSetPartyPlayers);
+  }
+
+  void _onSetPartyPlayers(
+    SetPartyPlayersEvent event,
+    Emitter<DodisGameState> emit,
+  ) {
+    emit(state.copyWith(
+      players: event.players,
+      currentPlayerIndex: 0,
+      status: DodisGameStatus.waitingForRoll,
+      message: 'Roll the dice to start!',
+    ));
   }
 
   Future<void> _onRollDice(

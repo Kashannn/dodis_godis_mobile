@@ -63,7 +63,7 @@ class _SplashViewBodyState extends State<_SplashViewBody>
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
         if (state.status == SplashStatus.readyToNavigate) {
-          context.go(Routes.home);
+          context.go(Routes.howToPlayScreen);
         }
       },
       child: AppCustomScaffold(

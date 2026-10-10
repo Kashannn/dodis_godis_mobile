@@ -12,9 +12,12 @@ class OnlinePartyBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
+    return GestureDetector(
+      onTap: () => context.push(Routes.createParty),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [
@@ -89,7 +92,7 @@ class OnlinePartyBanner extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () => context.push(Routes.onlinePlay),
+            onPressed: () => context.push(Routes.createParty),
             icon: Icon(
               Icons.arrow_forward_ios_rounded,
               color: kWhite,
@@ -98,6 +101,7 @@ class OnlinePartyBanner extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }
