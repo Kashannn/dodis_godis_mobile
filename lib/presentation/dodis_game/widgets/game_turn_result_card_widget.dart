@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../data/models/board_tile_model.dart';
 import '../../../data/models/challenge_model.dart';
 import '../bloc/dodis_game_state.dart';
 
@@ -10,6 +11,7 @@ class GameTurnResultCardWidget extends StatelessWidget {
   final GamePlayer player;
   final int stepsMoved;
   final ChallengeModel? challenge;
+  final BoardTileModel? landedTile;
   final VoidCallback onContinue;
 
   const GameTurnResultCardWidget({
@@ -17,12 +19,59 @@ class GameTurnResultCardWidget extends StatelessWidget {
     required this.player,
     required this.stepsMoved,
     this.challenge,
+    this.landedTile,
     required this.onContinue,
   });
 
   @override
   Widget build(BuildContext context) {
     final holderColor = player.holderColor ?? kHolderBlue;
+
+    // Determine emoji badge
+    String badgeEmoji = '🍧';
+    if (landedTile != null) {
+      switch (landedTile!.type) {
+        case BoardTileType.blankCandy:
+          badgeEmoji = '🍬';
+          break;
+        case BoardTileType.kastaOm:
+          badgeEmoji = '🎲';
+          break;
+        case BoardTileType.challenge:
+          badgeEmoji = '🎯';
+          break;
+        case BoardTileType.stationHub:
+          badgeEmoji = '🌟';
+          break;
+      }
+    }
+
+    // Determine subtitle
+    String subtitle;
+    if (landedTile != null) {
+      switch (landedTile!.type) {
+        case BoardTileType.blankCandy:
+          subtitle = landedTile!.hasCandy
+              ? 'Candy Field (Godis)! Picked up 1 candy! 🍬'
+              : 'Candy Field • Candy already collected';
+          break;
+        case BoardTileType.kastaOm:
+          subtitle = 'Kasta Om! Extra roll granted — Roll again! 🎲';
+          break;
+        case BoardTileType.challenge:
+          subtitle =
+              'Utmaning: ${landedTile!.swedishTitle} • Tap to duel!';
+          break;
+        case BoardTileType.stationHub:
+          subtitle =
+              'Station: ${landedTile!.swedishTitle} • Tap to duel!';
+          break;
+      }
+    } else if (challenge != null) {
+      subtitle = 'Collected 1 Candy • ${challenge!.title}';
+    } else {
+      subtitle = 'Collected 1 Candy';
+    }
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
@@ -65,7 +114,7 @@ class GameTurnResultCardWidget extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                '🍧',
+                badgeEmoji,
                 style: TextStyle(fontSize: 26.sp),
               ),
             ),
@@ -89,9 +138,7 @@ class GameTurnResultCardWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  challenge != null
-                      ? 'Collected 1 Candy • ${challenge!.title}'
-                      : 'Collected 1 Candy',
+                  subtitle,
                   style: GoogleFonts.comicNeue(
                     fontSize: 14.5.sp,
                     fontWeight: FontWeight.w800,

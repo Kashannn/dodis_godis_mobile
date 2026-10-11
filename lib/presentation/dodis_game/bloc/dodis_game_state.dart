@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_images.dart';
+import '../../../data/models/board_tile_model.dart';
 import '../../../data/models/challenge_model.dart';
 
 class GamePlayer extends Equatable {
@@ -78,6 +79,8 @@ class DodisGameState extends Equatable {
   final DodisGameStatus status;
   final String message;
   final int totalCandiesInBag;
+  final List<BoardTileModel> boardTiles;
+  final BoardTileModel? lastLandedTile;
 
   const DodisGameState({
     required this.players,
@@ -89,6 +92,8 @@ class DodisGameState extends Equatable {
     required this.status,
     required this.message,
     required this.totalCandiesInBag,
+    required this.boardTiles,
+    this.lastLandedTile,
   });
 
   factory DodisGameState.initial() {
@@ -143,6 +148,8 @@ class DodisGameState extends Equatable {
       status: DodisGameStatus.waitingForRoll,
       message: 'Tap the dice to make your move!',
       totalCandiesInBag: 30,
+      boardTiles: BoardTileModel.defaultBoardTiles(),
+      lastLandedTile: null,
     );
   }
 
@@ -158,6 +165,8 @@ class DodisGameState extends Equatable {
     DodisGameStatus? status,
     String? message,
     int? totalCandiesInBag,
+    List<BoardTileModel>? boardTiles,
+    BoardTileModel? lastLandedTile,
   }) {
     return DodisGameState(
       players: players ?? this.players,
@@ -169,19 +178,23 @@ class DodisGameState extends Equatable {
       status: status ?? this.status,
       message: message ?? this.message,
       totalCandiesInBag: totalCandiesInBag ?? this.totalCandiesInBag,
+      boardTiles: boardTiles ?? this.boardTiles,
+      lastLandedTile: lastLandedTile ?? this.lastLandedTile,
     );
   }
 
   @override
   List<Object?> get props => [
-    players,
-    currentPlayerIndex,
-    lastDiceRoll,
-    isRollingDice,
-    currentChallenge,
-    selectedOpponent,
-    status,
-    message,
-    totalCandiesInBag,
-  ];
+        players,
+        currentPlayerIndex,
+        lastDiceRoll,
+        isRollingDice,
+        currentChallenge,
+        selectedOpponent,
+        status,
+        message,
+        totalCandiesInBag,
+        boardTiles,
+        lastLandedTile,
+      ];
 }

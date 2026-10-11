@@ -49,6 +49,10 @@ class RulesStepSectionWidget extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
 
+        // 1.5. Godisar i Påsen (Candies & Contents in the Bag from client sketches)
+        _buildCandyComponentsCard(),
+        SizedBox(height: 16.h),
+
         // 2. On Your Turn Card (NÄR DET ÄR DIN TUR)
         _buildCard(
           accentColor: kCandyPink,
@@ -287,6 +291,146 @@ class RulesStepSectionWidget extends StatelessWidget {
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCandyComponentsCard() {
+    final candyItems = [
+      (
+        '🍬',
+        '42x Godis Markörer (Chip Candies)',
+        '7x in each of 6 colors (Blue, Yellow, Purple, Orange, Pink, Green). Placed on unmarked circles on the outer track!',
+        kCandyOrange,
+      ),
+      (
+        '🎲',
+        'Godis Tärningar (Candy Dice)',
+        'Edible candy dice with numbers 1 to 6 for rolling your turns.',
+        kCandyRed,
+      ),
+      (
+        '🍭',
+        'Snurra Klubba (Spinning Lollipop)',
+        'Cone-shaped lollipop shaped like a spinning top for the spin battle challenges.',
+        kCandyYellow,
+      ),
+      (
+        '🧪',
+        '5x Smak Test (Filled Gum Cubes)',
+        'Chewing gum cubes with liquid centers that turn your tongue Strawberry (Red), Apple (Green), or Banana (Yellow)!',
+        kCandyGreen,
+      ),
+      (
+        '🍋',
+        '4x Super Sur (Sour Candies)',
+        'Super sour candy for the 30-second straight-face test.',
+        kCandyYellow,
+      ),
+      (
+        '〰️',
+        '4x Äta Snöre (Candy Laces)',
+        'Long rolled candy string laces for eat-without-hands and pull-string challenges.',
+        kCandyPink,
+      ),
+      (
+        '🍧',
+        '4-6x Godis Behållare (Containers)',
+        'Colored plastic cups to collect your won candy pieces.',
+        kCandyBlue,
+      ),
+      (
+        '🗺️',
+        'Double-Sided Board & Packaging',
+        '2-sided board inside the bag for multiple game modes! Playable in-app or with the printed physical board.',
+        kCandyPurple,
+      ),
+    ];
+
+    return Container(
+      decoration: BoxDecoration(
+        color: kWhite,
+        borderRadius: BorderRadius.circular(22.r),
+        border: Border.all(color: kCandyOrange.withValues(alpha: 0.25), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: kCandyOrange.withValues(alpha: 0.12),
+            blurRadius: 16.r,
+            offset: Offset(0, 6.h),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.all(18.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: kCandyOrange.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Text(
+                  'GODISAR I PÅSEN',
+                  style: kButtonSmallStyle.copyWith(
+                    color: kCandyOrange,
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              const Text('🍬', style: TextStyle(fontSize: 20)),
+            ],
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            'Candies & Components in the Bag',
+            style: kHeadingSmall.copyWith(fontSize: 17.5.sp, color: kPrimaryTextColor),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            'All candy elements drawn in the official game sketches:',
+            style: kBodySmall.copyWith(color: kSecondaryTextColor),
+          ),
+          SizedBox(height: 14.h),
+          ...candyItems.map((item) => Padding(
+                padding: EdgeInsets.only(bottom: 10.h),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(item.$1, style: TextStyle(fontSize: 18.sp)),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.$2,
+                            style: kHeadingSmall.copyWith(
+                              fontSize: 13.5.sp,
+                              color: kPrimaryTextColor,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            item.$3,
+                            style: kBodySmall.copyWith(
+                              fontSize: 11.5.sp,
+                              color: kSecondaryTextColor,
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )),
         ],
       ),
     );

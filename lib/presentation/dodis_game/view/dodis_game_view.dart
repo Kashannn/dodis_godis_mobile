@@ -5,10 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/router/routes.dart';
-import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_images.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/di/injection_container.dart';
 import '../../../core/utils/app_custom_scaffold.dart';
+import '../../../data/models/board_tile_model.dart';
 import '../../splash/widgets/tap_to_play_button.dart';
 import '../bloc/dodis_game_bloc.dart';
 import '../bloc/dodis_game_event.dart';
@@ -19,6 +20,8 @@ import '../widgets/game_bottom_controls_widget.dart';
 import '../widgets/game_dice_roll_overlay.dart';
 import '../widgets/game_turn_result_card_widget.dart';
 import '../widgets/player_roster_bar.dart';
+import 'challenge_result_screen.dart';
+import 'game_winner_screen.dart';
 
 class DodisGameView extends StatelessWidget {
   final List<GamePlayer>? initialPlayers;
@@ -115,82 +118,68 @@ class _DodisGameContentState extends State<_DodisGameContent> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => Container(
-        padding: EdgeInsets.all(20.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
-        ),
-        child: SafeArea(
-          child: ActiveChallengeModal(
-            challenge: state.currentChallenge!,
-            allPlayers: state.players,
-            currentPlayer: state.currentPlayer,
-            selectedOpponent: state.selectedOpponent,
-            onSelectOpponent: (opp) {
-              context.read<DodisGameBloc>().add(SelectOpponentEvent(opp));
-            },
-            onCompleteChallenge: (win) {
-              Navigator.pop(ctx);
-              context
-                  .read<DodisGameBloc>()
-                  .add(CompleteChallengeEvent(didWin: win));
+      builder: (ctx) => SafeArea(
+        child: ActiveChallengeModal(
+          challenge: state.currentChallenge!,
+          allPlayers: state.players,
+          currentPlayer: state.currentPlayer,
+          selectedOpponent: state.selectedOpponent,
+          onSelectOpponent: (opp) {
+            context.read<DodisGameBloc>().add(SelectOpponentEvent(opp));
+          },
+          onCompleteChallenge: (win) {
+            Navigator.pop(ctx);
+            context
+                .read<DodisGameBloc>()
+                .add(CompleteChallengeEvent(didWin: win));
+            if (win) {
+              _showChallengeSuccessScreen(
+                context,
+                state.currentPlayer.name,
+                int.tryParse(state.currentChallenge?.candyReward ?? '1') ?? 1,
+              );
+            } else {
               context.read<DodisGameBloc>().add(const NextTurnEvent());
-            },
-          ),
+            }
+          },
         ),
       ),
     );
   }
 
-  void _showGameOverDialog(BuildContext context, DodisGameState state) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.r)),
-        title: Row(
-          children: [
-            const Text('🏆 '),
-            Text(
-              kGameOverTitle,
-              style: GoogleFonts.comicNeue(
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ],
+  void _showChallengeSuccessScreen(
+    BuildContext context,
+    String playerName,
+    int candiesWon,
+  ) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ChallengeResultScreen(
+          playerName: playerName,
+          candiesWon: candiesWon,
+          onContinue: () {
+            Navigator.of(context).pop();
+            context.read<DodisGameBloc>().add(const NextTurnEvent());
+          },
         ),
-        content: Text(
-          '${state.currentPlayer.name} collected the last candy and is crowned the Candy Champion!',
-          style: GoogleFonts.comicNeue(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
-          ),
+      ),
+    );
+  }
+
+  void _showWinnerScreen(BuildContext context, DodisGameState state) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => GameWinnerScreen(
+          winnerName: state.currentPlayer.name,
+          onPlayAgain: () {
+            Navigator.of(context).pop();
+            context.read<DodisGameBloc>().add(const ResetGameEvent());
+          },
+          onMainMenu: () {
+            Navigator.of(context).pop();
+            context.go(Routes.home);
+          },
         ),
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: kPartyButtonGreenMid,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14.r),
-              ),
-            ),
-            onPressed: () {
-              Navigator.pop(ctx);
-              context.read<DodisGameBloc>().add(const ResetGameEvent());
-            },
-            child: Text(
-              kPlayAgain,
-              style: GoogleFonts.comicNeue(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w800,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -200,7 +189,25 @@ class _DodisGameContentState extends State<_DodisGameContent> {
     return BlocConsumer<DodisGameBloc, DodisGameState>(
       listener: (context, state) {
         if (state.status == DodisGameStatus.gameOver) {
-          _showGameOverDialog(context, state);
+          _showWinnerScreen(context, state);
+        }
+        if (state.lastLandedTile?.type == BoardTileType.kastaOm &&
+            state.status == DodisGameStatus.waitingForRoll) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '🎲 Kasta Om! ${state.currentPlayer.name} gets a free extra roll!',
+                style: GoogleFonts.comicNeue(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: const Color(0xFFFF5722),
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 2),
+            ),
+          );
         }
         if (state.status == DodisGameStatus.challengeActive &&
             _showRollOverlay) {
@@ -264,14 +271,11 @@ class _DodisGameContentState extends State<_DodisGameContent> {
                                 ),
                               ),
                             ),
-                            Text(
-                              'DODIS GODIS',
-                              style: GoogleFonts.comicNeue(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w900,
-                                color: const Color(0xFF0288D1),
-                                letterSpacing: 1.0,
-                              ),
+                            Image.asset(
+                              kTapScreenLogo,
+                             // width: 365.w,
+                              height: 100.h,
+                              fit: BoxFit.contain,
                             ),
                             GestureDetector(
                               onTap: () => context.push(Routes.rules),
@@ -298,18 +302,24 @@ class _DodisGameContentState extends State<_DodisGameContent> {
                       // Otherwise: Show the Player Roster capsules (Screenshot 1)
                       if (isChallengeState)
                         GestureDetector(
-                          onTap: () =>
-                              _showChallengeDetailsModal(context, state),
+                          onTap: () {
+                            if (state.currentChallenge != null) {
+                              _showChallengeDetailsModal(context, state);
+                            }
+                          },
                           child: GameTurnResultCardWidget(
                             player: state.currentPlayer,
                             stepsMoved: state.lastDiceRoll,
                             challenge: state.currentChallenge,
+                            landedTile: state.lastLandedTile,
                             onContinue: () {
-                              context.read<DodisGameBloc>().add(
-                                    const CompleteChallengeEvent(
-                                      didWin: true,
-                                    ),
-                                  );
+                              if (state.currentChallenge != null) {
+                                context.read<DodisGameBloc>().add(
+                                      const CompleteChallengeEvent(
+                                        didWin: true,
+                                      ),
+                                    );
+                              }
                               context
                                   .read<DodisGameBloc>()
                                   .add(const NextTurnEvent());
@@ -330,13 +340,15 @@ class _DodisGameContentState extends State<_DodisGameContent> {
                         activeTile: state.currentPlayer.currentTile,
                         players: state.players,
                         currentPlayerIndex: state.currentPlayerIndex,
+                        boardTiles: state.boardTiles,
                       ),
 
                       const Spacer(),
 
                       // 4. Bottom Controls:
-                      // If just moved: Green "Continue" Pill Button (Screenshot 3)
-                      // Otherwise: Circular 3D Dice Button + Flanking Icons (Screenshot 1)
+                      // If challenge active: "Start Challenge" opens Duel Modal
+                      // If candy resolved: "Continue" moves to next player
+                      // Otherwise: Circular 3D Dice Button
                       if (isChallengeState)
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -344,7 +356,9 @@ class _DodisGameContentState extends State<_DodisGameContent> {
                             vertical: 14.h,
                           ),
                           child: TapToPlayButton(
-                            text: 'Continue',
+                            text: state.currentChallenge != null
+                                ? 'Start Challenge'
+                                : 'Continue',
                             width: 320.w,
                             height: 60.h,
                             fontSize: 24.sp,
@@ -356,14 +370,13 @@ class _DodisGameContentState extends State<_DodisGameContent> {
                             borderColor: const Color(0xFF116522),
                             textColor: Colors.white,
                             onPressed: () {
-                              context.read<DodisGameBloc>().add(
-                                    const CompleteChallengeEvent(
-                                      didWin: true,
-                                    ),
-                                  );
-                              context
-                                  .read<DodisGameBloc>()
-                                  .add(const NextTurnEvent());
+                              if (state.currentChallenge != null) {
+                                _showChallengeDetailsModal(context, state);
+                              } else {
+                                context
+                                    .read<DodisGameBloc>()
+                                    .add(const NextTurnEvent());
+                              }
                             },
                           ),
                         )

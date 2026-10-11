@@ -12,4 +12,6 @@ class Routes {
   static const String createParty = '/createParty';
   static const String chooseHolder = '/chooseHolder';
   static const String joinParty = '/joinParty';
+  static const String challengeResult = '/challengeResult';
+  static const String gameWinner = '/gameWinner';
 }

@@ -57,3 +57,11 @@ const String kDiceRollLottie = 'assets/LottieFiles/dice_roll.json';
 // Audio Sounds
 const String kDiceRollSound = 'sounds/Dice.mp3';
 
+// Challenge Success & Winner Celebrations
+const String kChallengeSuccessHero = 'assets/images/challenge_success_hero.png';
+const String kSuccessCandyBadge = 'assets/images/success_candy_badge.png';
+const String kWinnerRibbonBanner = 'assets/images/winner_ribbon_banner.png';
+const String kWinnerCrownCharacter = 'assets/images/winner_crown_character.png';
+const String kChallengeByggaTornImage = 'assets/images/challenge_bygga_torn.jpg';
+const String kChallengeStenSaxPaseImage = 'assets/images/challenge_sten_sax_pase.jpg';
+

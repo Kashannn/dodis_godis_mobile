@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/constants/app_images.dart';
+import '../../../data/models/board_tile_model.dart';
 import '../bloc/dodis_game_state.dart';
 import 'board_wheel_painter.dart';
 
@@ -10,12 +11,14 @@ class GameBoardWidget extends StatelessWidget {
   final int activeTile;
   final List<GamePlayer> players;
   final int currentPlayerIndex;
+  final List<BoardTileModel>? boardTiles;
 
   const GameBoardWidget({
     super.key,
     required this.activeTile,
     required this.players,
     required this.currentPlayerIndex,
+    this.boardTiles,
   });
 
   @override
@@ -102,6 +105,7 @@ class GameBoardWidget extends StatelessWidget {
                 activeTile: activeTile,
                 players: players,
                 currentPlayerIndex: currentPlayerIndex,
+                boardTiles: boardTiles,
               ),
             ),
           ),

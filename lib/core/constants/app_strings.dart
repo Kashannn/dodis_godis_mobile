@@ -137,27 +137,27 @@ const String kRulesTabAll = 'All';
 const String kRulesTabSetup = '1. Setup';
 const String kRulesTabTurn = '2. Gameplay';
 const String kRulesTabWinning = '3. Victory';
-const String kRulesTabChallenges = '4. The 9 Challenges';
+const String kRulesTabChallenges = '4. The 18 Challenges';
 
 // Setup Section
 const String kSetupTitle = 'FÖRBEREDELSER (Game Preparation)';
-const String kSetupSubtitle = 'Follow these 3 easy steps before rolling the dice';
-const String kSetupStep1Title = '1. Spread Out the Candies';
+const String kSetupSubtitle = 'Place chip candies on unmarked circles & prepare your cups!';
+const String kSetupStep1Title = '1. Place Chip Candies on the Board';
 const String kSetupStep1Desc =
-    'Spread out candies over the entire outer circle of the Dodis Godis gameboard. Any circle without a special illustration gets a candy marker placed on it.';
+    'Place the chip candies (godismarkörer) on all unmarked circles around the outer track. The illustrated circles are the challenges!';
 const String kSetupStep2Title = '2. Choose Player Cups';
 const String kSetupStep2Desc =
-    'Each player chooses a candy container (which can double as a party shot glass in party mode) and places it on the start field.';
-const String kSetupStep3Title = '3. Ready to Roll!';
+    'Each player chooses a candy container (godisbehållare) in their color and places it on a station hub.';
+const String kSetupStep3Title = '3. Ready for Fun!';
 const String kSetupStep3Desc =
-    'Now you are ready to begin playing the sweetest board game battle.';
+    'Remember: It is more a fun time than just a winning game! Playable both in the app or physically with the double-sided board from the bag.';
 
 // Turn Section
 const String kTurnTitle = 'NÄR DET ÄR DIN TUR (On Your Turn)';
 const String kTurnSubtitle = 'What to do when the dice lands on your round';
 const String kTurnStep1Title = '1. Roll & Move Clockwise';
 const String kTurnStep1Desc =
-    'Roll the dice and move your container forward clockwise by the exact number of spaces shown on the dice.';
+    'Roll the candy dice and move your container forward clockwise by the exact number of spaces shown on the dice.';
 const String kTurnStep1Tip =
     'Scan the packaging QR code to play with digital dice & animated guidance!';
 const String kTurnStep2Title = '2. Face the Challenge';
@@ -165,7 +165,7 @@ const String kTurnStep2Desc =
     'The space you land on dictates the challenge. You get to choose which opponent you want to duel or challenge!';
 const String kTurnStep3Title = '3. Win the Candy Prize';
 const String kTurnStep3Desc =
-    'If you clear the challenge, you win and claim the candy piece from that spot! If you fail, the candy remains on the board.';
+    'If you clear the challenge, you win and claim the candy piece into your container! If you land on a blank circle, pick up the candy directly!';
 
 // Win Section
 const String kWinningTitle = 'SÅHÄR VINNER DU (How You Win)';
@@ -174,8 +174,8 @@ const String kWinningDesc =
     'The player who collects the very last piece of candy from the gameboard wins the entire game of Dodis Godis!';
 const String kWinningTrophyTitle = 'Last Candy Takes All!';
 
-// The 9 Challenges
-const String kThe9ChallengesHeader = 'THE 9 CHALLENGES';
+// The 18 Challenges
+const String kThe9ChallengesHeader = 'THE 18 CHALLENGES';
 const String kThe9ChallengesSubtitle =
     'Illustrated circular challenge spots found around the outer track of the gameboard';
 const String kHowToPlayLabel = 'How to play:';
@@ -199,16 +199,16 @@ const String kChallenge2Tag = 'Bluff & Trivia';
 
 // Challenge 3: Closest Toss (Kast Närmast Vinner)
 const String kChallenge3Title = 'Closest Toss';
-const String kChallenge3Swedish = 'Kast närmast vinner';
+const String kChallenge3Swedish = 'Kast närmast vinner – Kasta mot en markering';
 const String kChallenge3Desc =
-    'Both players stand back from the target. Toss a playing die or candy piece toward the bullseye target. The toss that stops closest to the center claims the round!';
+    'Pick a mark on the board or floor and toss a chip candy towards it. The toss that lands closest to the target mark claims the candy!';
 const String kChallenge3Tag = 'Aim & Toss';
 
 // Challenge 4: Coin Flip (Singla Slant)
-const String kChallenge4Title = 'Coin Flip';
+const String kChallenge4Title = 'Tails or Heads';
 const String kChallenge4Swedish = 'Singla slant – Krona eller klave';
 const String kChallenge4Desc =
-    'Flip a coin high in the air! Your opponent must call "Crown" (Heads) or "Clover" (Tails) before it lands. Win the call to seize the candy!';
+    'Flip a chip candy high in the air! Your opponent calls "Tails" or "Heads" (or color/side) before it lands. Win the call to seize the candy!';
 const String kChallenge4Tag = 'Pure Luck';
 
 // Challenge 5: Guess the Hand (Gissa Hand)
@@ -222,29 +222,92 @@ const String kChallenge5Tag = 'Mind Game';
 const String kChallenge6Title = 'Catch with Mouth';
 const String kChallenge6Swedish = 'Fånga godis med munnen';
 const String kChallenge6Desc =
-    'Toss a round candy piece upwards into the air and catch it directly in your open mouth without using your hands! Catch it cleanly to claim the candy.';
+    'A rival tosses a soft candy in an arc from 1.5 meters away. Catch the flying candy cleanly in your open mouth without hands!';
 const String kChallenge6Tag = 'Reflex & Skill';
 
-// Challenge 7: Pull the String (Dra Sticka)
-const String kChallenge7Title = 'Pull the String';
+// Challenge 7: Pull the String / Pick Straw (Dra Sticka)
+const String kChallenge7Title = 'Pick Straw (Candy Laces)';
 const String kChallenge7Swedish = 'Dra sticka – Längst snöre vinner';
 const String kChallenge7Desc =
-    'Pull on the stick attached to strings of unknown lengths. The player who pulls out the longest string wins the duel and claims the candy!';
+    'A rival holds two string candies of different lengths hidden in a closed hand. Both players pull one string simultaneously – longest string wins!';
 const String kChallenge7Tag = 'Duel of Luck';
 
-// Challenge 8: Spin the Top (Snurra)
-const String kChallenge8Title = 'Spin the Top';
-const String kChallenge8Swedish = 'Snurra – Den som spinner längst vinner';
+// Challenge 8: Spin the Lollipop (Snurra Klubba)
+const String kChallenge8Title = 'Spin the Lollipop';
+const String kChallenge8Swedish = 'Snurra klubba – Snurra klubban som en snurra';
 const String kChallenge8Desc =
-    'Both players launch their spinning tops (or spin a candy/coin on the table) simultaneously. Whichever top spins the longest wins!';
+    'Use the spinning-top shaped lollipop! Both players spin their lollipop on the table simultaneously – whichever lollipop spins the longest wins!';
 const String kChallenge8Tag = 'Spin Battle';
 
 // Challenge 9: Super Sour Face (Supersur)
 const String kChallenge9Title = 'Super Sour Face';
-const String kChallenge9Swedish = 'Supersur – Klara att suga utan att grimasera';
+const String kChallenge9Swedish = 'Supersur – Hålla minen sur test';
 const String kChallenge9Desc =
-    'Pop a super sour candy into your mouth and suck on it for 15 seconds without making a face, squinting, or grimacing! Maintain a completely straight poker face to win.';
+    'Pop a super sour candy into your mouth and suck on it for 30 seconds without making a face, squinting, or grimacing! Maintain a completely straight poker face to win.';
 const String kChallenge9Tag = 'Endurance';
+
+// Challenge 10: Spin A Chip Candy (Snurra Markör)
+const String kChallenge10Title = 'Spin A Chip Candy';
+const String kChallenge10Swedish = 'Snurra markör – Snärta och snurra godisen';
+const String kChallenge10Desc =
+    'Flick a chip candy on the table like a spinning coin! The player whose chip spins the longest claims the candy.';
+const String kChallenge10Tag = 'Flick & Spin';
+
+// Challenge 11: Rock Paper Scissors (Sten Sax Påse)
+const String kChallenge11Title = 'Rock Paper Scissors';
+const String kChallenge11Swedish = 'Sten Sax Påse – Bäst av tre';
+const String kChallenge11Desc =
+    'Classic Rock, Paper, Scissors showdown! Play against a rival – best 2 out of 3 rounds wins the candy prize.';
+const String kChallenge11Tag = 'Classic Duel';
+
+// Challenge 12: Throw the Dice (Högst Vinner Tärning)
+const String kChallenge12Title = 'Highest Dice Roll';
+const String kChallenge12Swedish = 'Kasta tärningen – Högst vinner';
+const String kChallenge12Desc =
+    'Throw the candy dice against an opponent! Whoever rolls the highest number wins the die and gets to munch it.';
+const String kChallenge12Tag = 'Dice Duel';
+
+// Challenge 13: Tower Builder (Bygga Torn)
+const String kChallenge13Title = 'Tower Builder';
+const String kChallenge13Swedish = 'Bygga torn – Snabbast torn vinner';
+const String kChallenge13Desc =
+    'Stack chip candies on top of each other as fast as possible. The player who builds the tallest standing tower the quickest wins!';
+const String kChallenge13Tag = 'Stacking Speed';
+
+// Challenge 14: Biggest Bubble (Störst Bubbla)
+const String kChallenge14Title = 'Biggest Bubble';
+const String kChallenge14Swedish = 'Störst bubbla – Tuggummitest';
+const String kChallenge14Desc =
+    'Chew a bubblegum cube and blow the biggest bubble you can! Contestants decide who blew the most impressive bubble.';
+const String kChallenge14Tag = 'Bubble Contest';
+
+// Challenge 15: Taste Test (Smakprov)
+const String kChallenge15Title = 'Taste Test (Smakprov)';
+const String kChallenge15Swedish = 'Smaktest – Fyllda tuggummikuber som färgar tungan';
+const String kChallenge15Desc =
+    'Chew one mystery gum cube without looking. Guess the flavor (Strawberry, Apple, or Banana)! Open your mouth – the color of your tongue proves if you were right!';
+const String kChallenge15Tag = 'Flavor Mystery';
+
+// Challenge 16: Flavor Breath Test (Blåsa Smak)
+const String kChallenge16Title = 'Flavor Breath Test';
+const String kChallenge16Swedish = 'Lukt-test – Blås och gissa smaken';
+const String kChallenge16Desc =
+    'Chew a flavored candy and gently blow your breath towards your contestant. They must determine the taste by aroma! Tongue color confirms if they are right.';
+const String kChallenge16Tag = 'Aroma & Senses';
+
+// Challenge 17: Eat Candy Lace No Hands (Äta Snöre)
+const String kChallenge17Title = 'Eat The Candy Lace (No Hands)';
+const String kChallenge17Swedish = 'Äta snöre – Ät snabbt utan händer';
+const String kChallenge17Desc =
+    'Two contestants take opposite ends of a long candy string lace using only their mouths – hands strictly behind backs! Fastest to the center wins.';
+const String kChallenge17Tag = 'Mouth Only';
+
+// Challenge 18: Truth or Dare (Sanning eller Konsekvens)
+const String kChallenge18Title = 'Truth or Dare';
+const String kChallenge18Swedish = 'Sanning eller Konsekvens';
+const String kChallenge18Desc =
+    'Party classic! Choose between answering a spicy question truthfully from your rival or performing a hilarious dare.';
+const String kChallenge18Tag = 'Party Classic';
 
 // Tap To Play Screen
 const String kTheSweetestPartyGame = 'The Sweetest Party Game!';
@@ -253,12 +316,12 @@ const String kTapToPlay = 'Tap to Play';
 // How To Play Screen
 const String kHowToPlayTitle = 'How to Play';
 const String kNext = 'Next';
-const String kRule1PlaceCandy = 'Place candy around the edge.';
-const String kRule2ChooseHolder = 'Choose a candy holder & start.';
-const String kRule3RollDice = 'Roll the dice and move.';
-const String kRule4DoChallenge = 'Do the challenge on the space.';
-const String kRule5PickOpponent = 'Pick an opponent to challenge.';
-const String kRule6GetLastCandy = 'Get the last candy to win!';
+const String kRule1PlaceCandy = 'Place chip candies on unmarked circles around the board.';
+const String kRule2ChooseHolder = 'Choose your colored candy cup container.';
+const String kRule3RollDice = 'Roll the candy dice and move forward clockwise.';
+const String kRule4DoChallenge = 'Landed space dictates the challenge or candy pickup!';
+const String kRule5PickOpponent = 'Pick a rival to duel: closest wins, spin, guess, or trivia!';
+const String kRule6GetLastCandy = 'Have fun! The player who claims the last candy wins.';
 
 // Create & Join Party Screen Strings
 const String kJoinAParty = 'Join a Party';

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../presentation/create_join_party/bloc/create_party_state.dart';
@@ -5,7 +6,9 @@ import '../../presentation/create_join_party/view/choose_holder_screen.dart';
 import '../../presentation/create_join_party/view/create_party_screen.dart';
 import '../../presentation/date_cards/view/date_cards_view.dart';
 import '../../presentation/dodis_game/bloc/dodis_game_state.dart';
+import '../../presentation/dodis_game/view/challenge_result_screen.dart';
 import '../../presentation/dodis_game/view/dodis_game_view.dart';
+import '../../presentation/dodis_game/view/game_winner_screen.dart';
 import '../../presentation/home/view/home_view.dart';
 import '../../presentation/online_play/view/online_play_view.dart';
 import '../../presentation/rules/view/how_to_play_screen.dart';
@@ -106,6 +109,37 @@ class AppRouter {
         name: Routes.createJoinParty,
         pageBuilder: (context, state) =>
             const NoTransitionPage<void>(child: CreatePartyScreen()),
+      ),
+      GoRoute(
+        path: Routes.challengeResult,
+        name: Routes.challengeResult,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          return NoTransitionPage<void>(
+            child: ChallengeResultScreen(
+              playerName: extra['playerName'] as String? ?? 'You',
+              candiesWon: extra['candiesWon'] as int? ?? 1,
+              onContinue: (extra['onContinue'] as VoidCallback?) ??
+                  () => context.pop(),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: Routes.gameWinner,
+        name: Routes.gameWinner,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          return NoTransitionPage<void>(
+            child: GameWinnerScreen(
+              winnerName: extra['winnerName'] as String? ?? 'You',
+              onPlayAgain: (extra['onPlayAgain'] as VoidCallback?) ??
+                  () => context.pop(),
+              onMainMenu: (extra['onMainMenu'] as VoidCallback?) ??
+                  () => context.go(Routes.home),
+            ),
+          );
+        },
       ),
     ],
   );
