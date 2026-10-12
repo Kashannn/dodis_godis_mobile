@@ -96,7 +96,7 @@ class GameBoardWidget extends StatelessWidget {
             ),
           ),
 
-          // 3. Central Canvas with 24 Candy Nodes, Spinner & 3D Pawns
+          // 3. Central Canvas with 24 Candy Nodes (enlarged circles), Spinner & 3D Pawns
           SizedBox(
             width: boardSize,
             height: boardSize,

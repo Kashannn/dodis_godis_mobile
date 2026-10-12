@@ -112,7 +112,7 @@ class ChallengeModel extends Equatable {
       title: 'Eat The Candy Lace',
       subtitle: 'Äta snöre (Fastest without hands)',
       instruction:
-          'You and a rival take opposite ends of a candy lace using your mouth only – no hands! The fastest player to eat to the center wins.',
+          'Both contestants receive their own separate candy string lace. With hands strictly behind your back, eat the lace using mouth only – fastest player to finish their lace wins!',
       candyReward: '1 Candy Lace',
       icon: Icons.timeline_rounded,
       accentColor: kCandyRed,

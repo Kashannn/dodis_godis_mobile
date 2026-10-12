@@ -138,6 +138,7 @@ const String kRulesTabSetup = '1. Setup';
 const String kRulesTabTurn = '2. Gameplay';
 const String kRulesTabWinning = '3. Victory';
 const String kRulesTabChallenges = '4. The 18 Challenges';
+const String kRulesTabBaksida = '5. Back Side (Multifunctional)';
 
 // Setup Section
 const String kSetupTitle = 'FÖRBEREDELSER (Game Preparation)';
@@ -299,7 +300,7 @@ const String kChallenge16Tag = 'Aroma & Senses';
 const String kChallenge17Title = 'Eat The Candy Lace (No Hands)';
 const String kChallenge17Swedish = 'Äta snöre – Ät snabbt utan händer';
 const String kChallenge17Desc =
-    'Two contestants take opposite ends of a long candy string lace using only their mouths – hands strictly behind backs! Fastest to the center wins.';
+    'Both contestants receive their own separate candy string lace. With hands strictly behind your back, eat the lace using only your mouth! The fastest player to finish their separate lace wins.';
 const String kChallenge17Tag = 'Mouth Only';
 
 // Challenge 18: Truth or Dare (Sanning eller Konsekvens)
@@ -362,3 +363,88 @@ const String kScanQrCodeTitle = 'Scan QR Code';
 const String kScanQrCodeSubtitle = '(If your friend shares QR)';
 const String kEnterValidCode = 'Please enter a valid party code';
 const String kJoiningParty = 'Joining party...';
+
+// Multifunctional Board (The 2-Sided Board)
+const String kMultifunctionalBoardTitle = 'Multifunctional Board';
+const String kBoardBacksideSubtitle = 'Back Side – Yatzy, Backgammon & Four in a Row';
+const String kBoardFrontsideSubtitle = 'Front Side – Dodis Godis Circular Board';
+const String kFlipBoardTooltip = 'Flip Board';
+const String kBoardFrontsideLabel = 'Front Side (Dodis Game)';
+const String kBoardBacksideLabel = 'Back Side (Multifunctional)';
+
+// Physical Board Without App
+const String kWorksWithoutAppTitle = 'Play Without App (Physical Board)';
+const String kWorksWithoutAppDesc =
+    'The gameboard and candies are created to work completely offline! Place the candy chips on the blank circles, read the challenge symbols directly on the board, and flip the board over for classic favorites.';
+
+// Back Side Games
+const String kBackgammonTitle = 'Backgammon (24 Points)';
+const String kBackgammonComponents = '15x red + 15x white candy chips • 4 dice • Doubling cube';
+const String kBackgammonRulesSummary =
+    'Classic Backgammon! Move your 15 checkers around the points and bear them off first. Knocked pieces go to the center bar.';
+
+const String kFyraIRadTitle = 'Four in a Row (Connect 4)';
+const String kFyraIRadComponents = '21x red + 21x white candy chips (42 total!) • 7x6 grid';
+const String kFyraIRadRulesSummary =
+    'Place your candy chips into the centered 7x6 grid. The first player to connect four candies in a row (horizontal, vertical, or diagonal) wins!';
+
+const String kYatzyBoardTitle = 'Yatzy Score Sheet';
+const String kYatzyBoardComponents = '5x edible candy dice • Printed Yatzy score sheet for players A, B, C, D...';
+const String kYatzyBoardRulesSummary =
+    'The top section of the back side features a pre-printed Yatzy score card. Roll with the 5 candy dice and record your scores directly on the board!';
+
+// Trivial Pursuit Compatibility
+const String kTrivialPursuitTitle = 'Trivial Pursuit Compatibility';
+const String kTrivialPursuitDesc =
+    'The 42 candy chips (7 in each of the 6 colors) perfectly match the classical Trivial Pursuit wedge categories:\n'
+    '🔵 Blue: Geography\n'
+    '🟣 Purple/Pink: Entertainment & Arts\n'
+    '🟡 Yellow: History\n'
+    '🧪 Green: Science & Nature\n'
+    '🟠 Orange: Sports & Leisure\n'
+    '🔴 Red: Wildcard / General Knowledge\n'
+    'Use them as pie wedges in trivia showdowns!';
+
+// Home Screen Strings
+const String kGameSettingsTitle = 'Game Settings';
+const String kSettingsRulesTitle = 'Complete Rules & Board Guide';
+const String kSettingsRulesSubtitle = 'Read physical board and game instructions';
+const String kSettingsPartyTitle = 'Player Setup & Party';
+const String kSettingsPartySubtitle = 'Configure player count, names, and avatars';
+const String kSettingsChallengesTitle = 'Explore All 18 Challenges';
+const String kSettingsChallengesSubtitle = 'Toss, truth or dare, sour face, tower, etc.';
+const String kPartyGameStatsTitle = 'Party Game Stats';
+const String kStatsCandiesValue = '🍬 42';
+const String kStatsCandiesLabel = 'Candy Chips';
+const String kStatsPlayersValue = '👥 2–6';
+const String kStatsPlayersLabel = 'Party Players';
+const String kStatsChallengesValue = '🏆 18';
+const String kStatsChallengesLabel = 'Challenges';
+const String kAwesomeButton = 'Awesome!';
+const String kStatsButtonLabel = 'Stats';
+const String kHomeGameplaySteps = 'Roll  •  Move  •  Collect Candy  •  Do Challenges  •  Win!';
+const String kStartGameSubtitle = 'Set up players and begin the fun!';
+const String kHomeTotalCandiesTitle = 'Total Candies';
+const String kHomeTotalCandiesCount = '42';
+const String kHomeTotalCandiesSubtitle = 'Collect them all!';
+const String kHomePlayersTitle = 'Players';
+const String kHomePlayersRange = '2–6';
+const String kHomePlayersSubtitle = 'Tap to change';
+const String kHomeChallengesTitle = 'Challenges';
+const String kHomeChallengesCount = '18';
+const String kHomeChallengesSubtitle = 'Fun & exciting';
+const String kHomeGameModeTitle = 'Game Mode';
+const String kHomeGameModeValue = 'Standard';
+const String kHomeGameModeSubtitle = 'DODIS GODIS';
+const String kHomeHowToPlayTitle = 'How to Play';
+const String kHomeHowToPlaySubtitle = 'Quick rules & tips';
+const String kHomeViewGuideAction = 'View Guide';
+const String kHomeChallengesCardTitle = 'Challenges';
+const String kHomeChallengesCardSubtitle = 'Explore all 18 challenges';
+const String kHomeSeeChallengesAction = 'See Challenges';
+const String kHomePlayerSetupTitle = 'Player Setup';
+const String kHomePlayerSetupSubtitle = 'Manage player names & colors';
+const String kHomeEditPlayersAction = 'Edit Players';
+const String kHomeMoreCandyMoreFun = '✨  More Candy  =  More Fun!  ✨';
+
+

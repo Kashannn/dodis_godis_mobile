@@ -89,4 +89,48 @@ const Color kHolderPurple = Color(0xFF9C27B0);
 const Color kHolderRed = Color(0xFFFF5252);
 const Color kHolderYellow = Color(0xFFFFB142);
 
+// Home Screen Palette & Gradients
+const Color kHomeBackgroundColor = Color(0xFFF9F8F5);
+const Color kHomeSkyBlueTop = Color(0xFFE3F2FD);
+const Color kHomeSkyBlueMid = Color(0xFFF1F8FE);
+const Color kHomeWarmIvory = Color(0xFFFFFDF7);
+const Color kHomeSoftLavender = Color(0xFFF7F4F9);
+
+const Color kHomePurpleDark = Color(0xFF5E35B1);
+const Color kHomePurplePrimary = Color(0xFF673AB7);
+const Color kHomePurpleDeep = Color(0xFF311B92);
+const Color kHomeNavyBlue = Color(0xFF1A237E);
+const Color kHomeOrangeDeep = Color(0xFFE65100);
+const Color kHomeOrangeShadow = Color(0xFFBF360C);
+
+const Color kHomeYellowGradientStart = Color(0xFFFFCA28);
+const Color kHomeYellowGradientMid = Color(0xFFFFA000);
+const Color kHomeYellowGradientEnd = Color(0xFFFF8F00);
+
+const Color kHomeCandyPink = Color(0xFFE91E63);
+const Color kHomeCandyPinkBg = Color(0xFFFCE4EC);
+const Color kHomePlayersBlue = Color(0xFF1E88E5);
+const Color kHomePlayersBlueBg = Color(0xFFE3F2FD);
+const Color kHomeChallengesAmber = Color(0xFFFFA000);
+const Color kHomeChallengesAmberBg = Color(0xFFFFF8E1);
+const Color kHomeModePurple = Color(0xFF7E57C2);
+const Color kHomeModePurpleBg = Color(0xFFEDE7F6);
+
+const Color kHomeHowToPlayBg = Color(0xFFE8F5E9);
+const Color kHomeHowToPlayBorder = Color(0xFFA5D6A7);
+const Color kHomeHowToPlayDarkGreen = Color(0xFF1B5E20);
+const Color kHomeHowToPlayMidGreen = Color(0xFF388E3C);
+const Color kHomeHowToPlayBtnGreen = Color(0xFF2E7D32);
+
+const Color kHomeChallengesCardBg = Color(0xFFF3E5F5);
+const Color kHomeChallengesCardBorder = Color(0xFFCE93D8);
+const Color kHomeChallengesDarkPurple = Color(0xFF4A148C);
+const Color kHomeChallengesBtnPurple = Color(0xFF7B1FA2);
+
+const Color kHomePlayerSetupBorder = Color(0xFFFFD54F);
+
+const Color kHomeRibbonPurpleStart = Color(0xFF7E57C2);
+const Color kHomeRibbonPurpleEnd = Color(0xFF8E24AA);
+
+
 

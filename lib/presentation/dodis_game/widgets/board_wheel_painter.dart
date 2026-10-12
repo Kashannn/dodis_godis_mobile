@@ -184,14 +184,14 @@ class BoardWheelPainter extends CustomPainter {
         final activeRing = Paint()
           ..color = Colors.white
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 3.2;
-        canvas.drawCircle(nodePos, 19.5, activeRing);
+          ..strokeWidth = 3.5;
+        canvas.drawCircle(nodePos, 21.5, activeRing);
 
         final activeGlow = Paint()
-          ..color = const Color(0xFFFFD700).withValues(alpha: 0.6)
+          ..color = const Color(0xFFFFD700).withValues(alpha: 0.65)
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.2;
-        canvas.drawCircle(nodePos, 22.0, activeGlow);
+          ..strokeWidth = 2.5;
+        canvas.drawCircle(nodePos, 24.5, activeGlow);
       }
     }
 
@@ -242,7 +242,7 @@ class BoardWheelPainter extends CustomPainter {
 
   /// 1. Blank circular plate where candy from the bag is placed
   void _drawBlankCandyTile(Canvas canvas, Offset pos, BoardTileModel tile) {
-    const plateRadius = 14.5;
+    const plateRadius = 16.0;
 
     // Indented plate shadow
     final plateShadow = Paint()
@@ -267,12 +267,12 @@ class BoardWheelPainter extends CustomPainter {
     final plateRim = Paint()
       ..color = const Color(0xFFD7CCC8).withValues(alpha: 0.85)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.3;
+      ..strokeWidth = 1.4;
     canvas.drawCircle(pos, plateRadius, plateRim);
 
     // If candy piece is present, draw the glossy 3D candy marker!
     if (tile.hasCandy) {
-      const candyRadius = 10.5;
+      const candyRadius = 11.5;
       final candyShadow = Paint()
         ..color = tile.baseColor.withValues(alpha: 0.35)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.5);
@@ -302,20 +302,20 @@ class BoardWheelPainter extends CustomPainter {
       final glint = Paint()
         ..color = Colors.white.withValues(alpha: 0.9)
         ..style = PaintingStyle.fill;
-      canvas.drawCircle(pos + const Offset(-3, -3), 2.0, glint);
+      canvas.drawCircle(pos + const Offset(-3, -3), 2.2, glint);
     } else {
       // Empty Plate: Subtle dotted inner ring showing candy was collected
       final emptyRing = Paint()
         ..color = const Color(0xFFBCAAA4).withValues(alpha: 0.45)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.2;
-      canvas.drawCircle(pos, 7.5, emptyRing);
+      canvas.drawCircle(pos, 8.5, emptyRing);
     }
   }
 
   /// 2. Illustrated Challenge Badge (Utmaning)
   void _drawChallengeTile(Canvas canvas, Offset pos, BoardTileModel tile) {
-    const radius = 16.0;
+    const radius = 18.5;
 
     final shadowPaint = Paint()
       ..color = tile.baseColor.withValues(alpha: 0.35)
@@ -338,17 +338,17 @@ class BoardWheelPainter extends CustomPainter {
     final borderPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0;
+      ..strokeWidth = 2.2;
     canvas.drawCircle(pos, radius, borderPaint);
 
     // Challenge icon glyph matching Swedish gameboard drawing
     final symbol = _getChallengeSymbol(tile.challenge?.id ?? '');
-    _drawCenteredText(canvas, pos, symbol, 13.0);
+    _drawCenteredText(canvas, pos, symbol, 14.5);
   }
 
   /// 3. Kasta Om (Reroll Extra Turn)
   void _drawKastaOmTile(Canvas canvas, Offset pos, BoardTileModel tile) {
-    const radius = 15.0;
+    const radius = 17.5;
 
     final shadowPaint = Paint()
       ..color = const Color(0xFFFF5722).withValues(alpha: 0.35)
@@ -371,15 +371,15 @@ class BoardWheelPainter extends CustomPainter {
     final borderPaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0;
+      ..strokeWidth = 2.2;
     canvas.drawCircle(pos, radius, borderPaint);
 
-    _drawCenteredText(canvas, pos, '🎲', 13.0);
+    _drawCenteredText(canvas, pos, '🎲', 14.5);
   }
 
   /// 4. Station Hub (Holder Cup station)
   void _drawStationHubTile(Canvas canvas, Offset pos, BoardTileModel tile) {
-    const radius = 19.0;
+    const radius = 20.5;
 
     final shadowPaint = Paint()
       ..color = tile.baseColor.withValues(alpha: 0.45)
@@ -412,7 +412,7 @@ class BoardWheelPainter extends CustomPainter {
       ..strokeWidth = 1.8;
     canvas.drawCircle(pos, radius - 2.5, innerBorder);
 
-    _drawCenteredText(canvas, pos, '🌟', 14.0);
+    _drawCenteredText(canvas, pos, '🌟', 15.0);
   }
 
   String _getChallengeSymbol(String id) {

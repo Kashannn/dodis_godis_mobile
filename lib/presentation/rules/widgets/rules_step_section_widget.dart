@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/constants/app_styles.dart';
+import '../../dodis_game/widgets/multifunctional_board_widget.dart';
 
 class RulesStepSectionWidget extends StatelessWidget {
   final VoidCallback? onQrTap;
@@ -51,6 +53,10 @@ class RulesStepSectionWidget extends StatelessWidget {
 
         // 1.5. Godisar i Påsen (Candies & Contents in the Bag from client sketches)
         _buildCandyComponentsCard(),
+        SizedBox(height: 16.h),
+
+        // 1.6. Multifunktionell Spelplan (The 2-Sided Board: Yatzy, Backgammon, Fyra i Rad, TP)
+        _buildMultifunctionalBoardSection(),
         SizedBox(height: 16.h),
 
         // 2. On Your Turn Card (NÄR DET ÄR DIN TUR)
@@ -431,6 +437,136 @@ class RulesStepSectionWidget extends StatelessWidget {
                   ],
                 ),
               )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMultifunctionalBoardSection() {
+    return Container(
+      decoration: BoxDecoration(
+        color: kWhite,
+        borderRadius: BorderRadius.circular(22.r),
+        border: Border.all(
+          color: const Color(0xFF2E7D32).withValues(alpha: 0.35),
+          width: 1.8,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF2E7D32).withValues(alpha: 0.12),
+            blurRadius: 18.r,
+            offset: Offset(0, 6.h),
+          ),
+        ],
+      ),
+      padding: EdgeInsets.all(18.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header Badge
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF2E7D32).withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Text(
+                  'DOUBLE-SIDED BOARD',
+                  style: kButtonSmallStyle.copyWith(
+                    color: const Color(0xFF2E7D32),
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              const Text('🔄', style: TextStyle(fontSize: 20)),
+            ],
+          ),
+          SizedBox(height: 10.h),
+
+          Text(
+            kMultifunctionalBoardTitle,
+            style: kHeadingSmall.copyWith(
+              fontSize: 17.5.sp,
+              color: kPrimaryTextColor,
+            ),
+          ),
+          SizedBox(height: 4.h),
+          Text(
+            kBoardBacksideSubtitle,
+            style: GoogleFonts.comicNeue(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF2E7D32),
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            kWorksWithoutAppDesc,
+            style: kBodySmall.copyWith(
+              color: kSecondaryTextColor,
+              height: 1.4,
+            ),
+          ),
+          SizedBox(height: 14.h),
+
+          // Embedded Interactive Multifunctional Board
+          const MultifunctionalBoardWidget(),
+
+          SizedBox(height: 14.h),
+
+          // Trivial Pursuit & 4-in-a-Row Candy Synergy Card
+          Container(
+            padding: EdgeInsets.all(12.w),
+            decoration: BoxDecoration(
+              color: const Color(0xFFE8F5E9),
+              borderRadius: BorderRadius.circular(14.r),
+              border: Border.all(
+                color: const Color(0xFF81C784),
+                width: 1.2,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.auto_awesome_rounded,
+                      size: 16.sp,
+                      color: const Color(0xFF2E7D32),
+                    ),
+                    SizedBox(width: 6.w),
+                    Text(
+                      'Multi-Game Candy Synergy:',
+                      style: GoogleFonts.comicNeue(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFF1B5E20),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6.h),
+                Text(
+                  '• 42 candy chips (6 colors x 7 pieces):\n'
+                  '   - Four in a Row: 21 red vs 21 white (exactly 42 pieces!)\n'
+                  '   - Backgammon: 15 red vs 15 white checkers\n'
+                  '   - Trivial Pursuit: 6 colors match all trivia categories\n'
+                  '• 5 candy dice: Perfect for Yatzy on the back side!',
+                  style: GoogleFonts.comicNeue(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF2E7D32),
+                    height: 1.45,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

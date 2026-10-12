@@ -19,6 +19,16 @@ const String kCandyBeanGreen = 'assets/images/candy_bean_green.png';
 
 // How To Play Screen Assets
 const String kHowToPlayBoard = 'assets/images/how_to_play_board.png';
+const String kMultifunctionalBoardBackside =
+    'assets/images/multifunctional_board_backside.png';
+const String kMultifunctionalBoardSketch =
+    'assets/images/multifunctional_board_sketch.png';
+
+// Home Screen 3D Assets
+const String kHomeHeroKids = 'assets/images/home_hero_kids.png';
+const String kHomeRuleBook = 'assets/images/home_rule_book.png';
+const String kHomeChallengeTarget = 'assets/images/home_challenge_target.png';
+const String kHomePlayerPawns = 'assets/images/home_player_pawns.png';
 
 // Create & Join Party Assets
 const String kKidsPartyGame = 'assets/images/kids_party_game.png';

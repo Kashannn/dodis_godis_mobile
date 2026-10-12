@@ -250,3 +250,143 @@ final TextStyle kRoomCodeStyle = GoogleFonts.poppins(
   letterSpacing: 1.5,
   color: kPrimaryTextColor,
 );
+
+// ── Home Screen Styles ──
+final TextStyle kHomeSettingsHeaderStyle = GoogleFonts.comicNeue(
+  fontSize: 20.sp,
+  fontWeight: FontWeight.w900,
+  color: kHomePurpleDeep,
+);
+
+final TextStyle kHomeSettingsListTitleStyle = GoogleFonts.comicNeue(
+  fontSize: 15.sp,
+  fontWeight: FontWeight.w800,
+);
+
+final TextStyle kHomeSettingsListSubtitleStyle = GoogleFonts.comicNeue(
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w600,
+);
+
+final TextStyle kHomeStatLabelStyle = GoogleFonts.comicNeue(
+  fontSize: 11.sp,
+  fontWeight: FontWeight.w700,
+  color: const Color(0xFF424242),
+);
+
+final TextStyle kHomeAwesomeBtnStyle = GoogleFonts.comicNeue(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w900,
+);
+
+final TextStyle kHomeStatsBtnTextStyle = GoogleFonts.comicNeue(
+  fontSize: 9.sp,
+  fontWeight: FontWeight.w900,
+  color: kHomePurpleDark,
+);
+
+final TextStyle kHomeSubtitleBulletsStyle = GoogleFonts.comicNeue(
+  fontSize: 12.5.sp,
+  fontWeight: FontWeight.w900,
+  color: kHomeNavyBlue,
+  letterSpacing: 0.2,
+);
+
+final TextStyle kHomeStartGameBtnTitleStyle = GoogleFonts.comicNeue(
+  fontSize: 22.sp,
+  fontWeight: FontWeight.w900,
+  color: Colors.white,
+  shadows: [
+    Shadow(
+      color: kHomeOrangeShadow.withValues(alpha: 0.6),
+      blurRadius: 3,
+      offset: const Offset(1, 1),
+    ),
+  ],
+);
+
+final TextStyle kHomeStartGameBtnSubtitleStyle = GoogleFonts.comicNeue(
+  fontSize: 10.5.sp,
+  fontWeight: FontWeight.w700,
+  color: Colors.white.withValues(alpha: 0.95),
+);
+
+final TextStyle kHomeSmallCardTitleStyle = GoogleFonts.comicNeue(
+  fontSize: 10.sp,
+  fontWeight: FontWeight.w700,
+  color: const Color(0xFF616161),
+);
+
+final TextStyle kHomeSmallCardValueStyle = GoogleFonts.comicNeue(
+  fontSize: 14.5.sp,
+  fontWeight: FontWeight.w900,
+  color: const Color(0xFF212121),
+);
+
+final TextStyle kHomeSmallCardSubtitleStyle = GoogleFonts.comicNeue(
+  fontSize: 8.5.sp,
+  fontWeight: FontWeight.w700,
+  color: const Color(0xFF757575),
+);
+
+final TextStyle kHomeHowToPlayTitleStyle = GoogleFonts.comicNeue(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w900,
+  color: kHomeHowToPlayDarkGreen,
+);
+
+final TextStyle kHomeHowToPlaySubtitleStyle = GoogleFonts.comicNeue(
+  fontSize: 11.sp,
+  fontWeight: FontWeight.w700,
+  color: kHomeHowToPlayMidGreen,
+);
+
+final TextStyle kHomeHowToPlayBtnStyle = GoogleFonts.comicNeue(
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w900,
+  color: Colors.white,
+);
+
+final TextStyle kHomeChallengesTitleStyle = GoogleFonts.comicNeue(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w900,
+  color: kHomeChallengesDarkPurple,
+);
+
+final TextStyle kHomeChallengesSubtitleStyle = GoogleFonts.comicNeue(
+  fontSize: 11.sp,
+  fontWeight: FontWeight.w700,
+  color: kHomeChallengesBtnPurple,
+);
+
+final TextStyle kHomeChallengesBtnStyle = GoogleFonts.comicNeue(
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w900,
+  color: Colors.white,
+);
+
+final TextStyle kHomePlayerSetupTitleStyle = GoogleFonts.comicNeue(
+  fontSize: 15.5.sp,
+  fontWeight: FontWeight.w900,
+  color: kHomeNavyBlue,
+);
+
+final TextStyle kHomePlayerSetupSubtitleStyle = GoogleFonts.comicNeue(
+  fontSize: 11.5.sp,
+  fontWeight: FontWeight.w700,
+  color: const Color(0xFF616161),
+);
+
+final TextStyle kHomePlayerSetupBtnStyle = GoogleFonts.comicNeue(
+  fontSize: 12.sp,
+  fontWeight: FontWeight.w900,
+  color: kHomePurpleDark,
+);
+
+final TextStyle kHomeRibbonTextStyle = GoogleFonts.comicNeue(
+  fontSize: 14.5.sp,
+  fontWeight: FontWeight.w900,
+  color: Colors.white,
+  letterSpacing: 0.5,
+);
+

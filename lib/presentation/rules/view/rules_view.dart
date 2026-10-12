@@ -277,22 +277,28 @@ class _RulesViewState extends State<RulesView> {
           c.tag.toLowerCase().contains(query);
     }).toList();
 
-    final showSetup = (_selectedTab == kRulesTabAll || _selectedTab == kRulesTabSetup) &&
+    final showSetup = (_selectedTab == kRulesTabAll ||
+            _selectedTab == kRulesTabSetup ||
+            _selectedTab == kRulesTabBaksida) &&
         (query.isEmpty ||
             kSetupTitle.toLowerCase().contains(query) ||
-            kSetupStep1Desc.toLowerCase().contains(query));
+            kSetupStep1Desc.toLowerCase().contains(query) ||
+            kMultifunctionalBoardTitle.toLowerCase().contains(query));
 
     final showGameplay = (_selectedTab == kRulesTabAll || _selectedTab == kRulesTabTurn) &&
+        _selectedTab != kRulesTabBaksida &&
         (query.isEmpty ||
             kTurnTitle.toLowerCase().contains(query) ||
             kTurnStep1Desc.toLowerCase().contains(query));
 
     final showWinning = (_selectedTab == kRulesTabAll || _selectedTab == kRulesTabWinning) &&
+        _selectedTab != kRulesTabBaksida &&
         (query.isEmpty ||
             kWinningTitle.toLowerCase().contains(query) ||
             kWinningDesc.toLowerCase().contains(query));
 
-    final showChallenges = _selectedTab == kRulesTabAll || _selectedTab == kRulesTabChallenges;
+    final showChallenges = (_selectedTab == kRulesTabAll || _selectedTab == kRulesTabChallenges) &&
+        _selectedTab != kRulesTabBaksida;
 
     return AppCustomScaffold(
       backgroundColor: kBackgroundColor,
@@ -357,6 +363,8 @@ class _RulesViewState extends State<RulesView> {
                   _buildTabChip(kRulesTabWinning),
                   SizedBox(width: 8.w),
                   _buildTabChip(kRulesTabChallenges),
+                  SizedBox(width: 8.w),
+                  _buildTabChip(kRulesTabBaksida),
                 ],
               ),
             ),
