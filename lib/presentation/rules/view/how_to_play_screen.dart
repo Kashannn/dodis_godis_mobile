@@ -171,6 +171,12 @@ class _HowToPlayScreenState extends State<HowToPlayScreen>
                     accentColor: const Color(0xFFFFB300),
                     iconEmoji: '👑',
                   ),
+
+                  // Actual Candies in the Bag (Godisar)
+                  _buildActualCandiesSection(),
+
+                  // Printable Board Front Side Layout
+                  _buildPrintableBoardSection(),
                 ] else ...[
                   // Back Side Multifunctional Board Widget
                   const MultifunctionalBoardWidget(),
@@ -178,7 +184,7 @@ class _HowToPlayScreenState extends State<HowToPlayScreen>
 
                   // Back Side Highlights
                   _buildSectionHeader(
-                    badge: '3-IN-1 BACK SIDE',
+                    badge: 'MULTIFUNCTIONAL BOARD',
                     title: 'All Offline Games On The Back',
                     subtitle: 'Designed to play with or without the app',
                   ),
@@ -186,6 +192,15 @@ class _HowToPlayScreenState extends State<HowToPlayScreen>
 
                   _buildGameStepCard(
                     stepNumber: 'A',
+                    badge: 'CORNER GAME',
+                    title: 'Noughts & Crosses (3x3 Grid)',
+                    description:
+                        'Play quick Tic-Tac-Toe duels in the top corner of the board using red and yellow candy markers.',
+                    accentColor: const Color(0xFF673AB7),
+                    iconEmoji: '❌⭕',
+                  ),
+                  _buildGameStepCard(
+                    stepNumber: 'B',
                     badge: 'DICE GAME',
                     title: 'Yatzy Score Sheet',
                     description:
@@ -194,7 +209,7 @@ class _HowToPlayScreenState extends State<HowToPlayScreen>
                     iconEmoji: '📝',
                   ),
                   _buildGameStepCard(
-                    stepNumber: 'B',
+                    stepNumber: 'C',
                     badge: 'CLASSIC',
                     title: 'Backgammon (24 Points)',
                     description:
@@ -203,7 +218,7 @@ class _HowToPlayScreenState extends State<HowToPlayScreen>
                     iconEmoji: '🎲',
                   ),
                   _buildGameStepCard(
-                    stepNumber: 'C',
+                    stepNumber: 'D',
                     badge: 'CONNECT 4',
                     title: 'Four in a Row (7x6 Grid)',
                     description:
@@ -212,7 +227,7 @@ class _HowToPlayScreenState extends State<HowToPlayScreen>
                     iconEmoji: '🔴',
                   ),
                   _buildGameStepCard(
-                    stepNumber: 'D',
+                    stepNumber: 'E',
                     badge: 'TRIVIA COMPATIBLE',
                     title: 'Trivial Pursuit Wedges',
                     description:
@@ -737,6 +752,228 @@ class _HowToPlayScreenState extends State<HowToPlayScreen>
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActualCandiesSection() {
+    final candies = [
+      (
+        '🍭 Rainbow Spinner Top',
+        'Snurra Klubba',
+        'Concentric rainbow rings on wooden spindle, spun on table for duels & tiebreakers.',
+        kCandySnurraKlubba,
+        const Color(0xFFE91E63),
+      ),
+      (
+        '🔘 42 Two-Colored Markers',
+        'Godis Marker (6x7)',
+        'Two-tone discs: Red tops (blue/yellow/purple bottom) & White tops (orange/pink/green bottom).',
+        kCandyChipsStack,
+        const Color(0xFF1E88E5),
+      ),
+      (
+        '🍋 Super Sour Lemon',
+        'Super Sur',
+        'Tangy lemon-shaped candy dusted with sour crystals. Keep a straight face to win!',
+        kCandySuperSour,
+        const Color(0xFFFBC02D),
+      ),
+      (
+        '🍬 Mystery Flavor Chews',
+        'Smaktest (x5)',
+        'Pure white shell on the outside, secret vibrant colors inside that tint your mouth!',
+        kCandyFlavorCubes,
+        const Color(0xFF8E24AA),
+      ),
+      (
+        '🧵 Candy Lace Roll',
+        'Äta Snöre',
+        'Rolled licorice/strawberry string eaten without using hands.',
+        kCandyAtaSnore,
+        const Color(0xFFE53935),
+      ),
+      (
+        '🥃 4 Candy Shot Glasses',
+        'Godis Behållare (x4)',
+        'Clear glass shot containers for each player to store their collected treats.',
+        kCandyContainerCup,
+        const Color(0xFF00ACC1),
+      ),
+      (
+        '🎲 Candy Dice',
+        'Godis Tärningar (x5)',
+        'White edible dice with black pips for board movement & Yatzy.',
+        kCandyDice,
+        const Color(0xFF5E35B1),
+      ),
+    ];
+
+    return Column(
+      children: [
+        SizedBox(height: 16.h),
+        _buildSectionHeader(
+          badge: 'ACTUAL CANDIES IN THE BAG',
+          title: 'What’s Inside (Godisar)',
+          subtitle: 'Real edible candy pieces used for all challenges & games',
+        ),
+        SizedBox(height: 12.h),
+        ...candies.map((c) => Container(
+          margin: EdgeInsets.only(bottom: 10.h),
+          padding: EdgeInsets.all(12.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(color: c.$5.withValues(alpha: 0.35), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: c.$5.withValues(alpha: 0.08),
+                blurRadius: 8.r,
+                offset: Offset(0, 3.h),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 54.w,
+                height: 54.w,
+                padding: EdgeInsets.all(4.w),
+                decoration: BoxDecoration(
+                  color: c.$5.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Image.asset(
+                  c.$4,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(width: 12.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            c.$1,
+                            style: GoogleFonts.comicNeue(
+                              fontSize: 14.5.sp,
+                              fontWeight: FontWeight.w900,
+                              color: const Color(0xFF2E1C0C),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                          decoration: BoxDecoration(
+                            color: c.$5.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(6.r),
+                          ),
+                          child: Text(
+                            c.$2,
+                            style: GoogleFonts.comicNeue(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w900,
+                              color: c.$5,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 3.h),
+                    Text(
+                      c.$3,
+                      style: GoogleFonts.comicNeue(
+                        fontSize: 11.5.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF5D4037),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )),
+      ],
+    );
+  }
+
+  Widget _buildPrintableBoardSection() {
+    return Column(
+      children: [
+        SizedBox(height: 16.h),
+        _buildSectionHeader(
+          badge: 'PHYSICAL BOARD READY',
+          title: 'Printable Board Layout (Framsida)',
+          subtitle: 'Matches the exact hand-drawn printable sketch',
+        ),
+        SizedBox(height: 12.h),
+        Container(
+          padding: EdgeInsets.all(12.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18.r),
+            border: Border.all(color: const Color(0xFF8D6E63).withValues(alpha: 0.4), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 10.r,
+                offset: Offset(0, 4.h),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: Image.asset(
+                  kPrintableBoardFrontside,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(height: 12.h),
+              _buildBoardFeatureRow('🌟 Start Zone (Bottom-Left)', '4 colored holding spots (Blue, Red, Yellow, Green) for player cups to begin.'),
+              _buildBoardFeatureRow('❌⭕ Noughts & Crosses (Top-Right)', 'Corner 3x3 grid for quick Tic-Tac-Toe duels using candy chips.'),
+              _buildBoardFeatureRow('🍰 6-Wedge Central Pie', 'Trivial Pursuit category wedges connecting to 6 outer stations via spoke tracks.'),
+              _buildBoardFeatureRow('🎲 Kasta Om (Roll Again)', 'Special dice-marked track circles granting another free roll.'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBoardFeatureRow(String title, String desc) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 6.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.comicNeue(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w900,
+              color: const Color(0xFF3E2723),
+            ),
+          ),
+          SizedBox(width: 6.w),
+          Expanded(
+            child: Text(
+              desc,
+              style: GoogleFonts.comicNeue(
+                fontSize: 11.5.sp,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF6D4C41),
+              ),
             ),
           ),
         ],

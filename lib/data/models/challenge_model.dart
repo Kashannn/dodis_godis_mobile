@@ -23,6 +23,7 @@ enum ChallengeType {
   draSticka,
   santEllerFalskt,
   snurra,
+  luffarschack,
 }
 
 class ChallengeModel extends Equatable {
@@ -282,6 +283,17 @@ class ChallengeModel extends Equatable {
       icon: Icons.question_answer_rounded,
       accentColor: kCandyPurple,
       type: ChallengeType.sanningEllerKonsekvens,
+    ),
+    const ChallengeModel(
+      id: 'luffarschack',
+      title: 'Noughts & Crosses',
+      subtitle: 'Luffarschack (Tic-Tac-Toe in Corner)',
+      instruction:
+          'Challenge an opponent to a quick duel in the 3x3 grid at the top-right corner of the board! Use your candy chips as markers. First player to get 3 in a row wins!',
+      candyReward: '1 Choice Candy',
+      icon: Icons.grid_3x3_rounded,
+      accentColor: kCandyBlue,
+      type: ChallengeType.luffarschack,
     ),
   ];
 }

@@ -6,6 +6,8 @@ import '../../../core/constants/app_images.dart';
 
 enum BacksideGameMode {
   fullBoard,
+  noughtsAndCrosses,
+  printableBoard,
   fyraIRad,
   backgammon,
   yatzy,
@@ -40,10 +42,50 @@ class _MultifunctionalBoardWidgetState
   late List<List<int>> _connectFourGrid; // 0 = empty, 1 = red, 2 = white/yellow
   int _currentPlayerTurn = 1;
 
+  // 3x3 Grid for Noughts & Crosses (Corner Game)
+  late List<int> _ticTacToeGrid; // 0 = empty, 1 = red chip (X), 2 = yellow chip (O)
+  int _ticTacToeTurn = 1;
+  String? _ticTacToeWinner;
+
   @override
   void initState() {
     super.initState();
     _resetConnectFour();
+    _resetTicTacToe();
+  }
+
+  void _resetTicTacToe() {
+    _ticTacToeGrid = List.filled(9, 0);
+    // Pre-place a couple of pieces like the corner sketch (center = O, top-left = X)
+    _ticTacToeGrid[4] = 2; // Center Yellow O
+    _ticTacToeGrid[0] = 1; // Top-Left Red X
+    _ticTacToeTurn = 1;
+    _ticTacToeWinner = null;
+  }
+
+  void _tapTicTacToe(int idx) {
+    if (_ticTacToeGrid[idx] != 0 || _ticTacToeWinner != null) return;
+    setState(() {
+      _ticTacToeGrid[idx] = _ticTacToeTurn;
+      const winLines = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+      ];
+      for (final line in winLines) {
+        if (_ticTacToeGrid[line[0]] != 0 &&
+            _ticTacToeGrid[line[0]] == _ticTacToeGrid[line[1]] &&
+            _ticTacToeGrid[line[0]] == _ticTacToeGrid[line[2]]) {
+          _ticTacToeWinner = _ticTacToeGrid[line[0]] == 1 ? '🔴 Red Candy Wins!' : '🟡 Yellow Candy Wins!';
+          return;
+        }
+      }
+      if (!_ticTacToeGrid.contains(0)) {
+        _ticTacToeWinner = 'Tie! Both get candy 🍬';
+      } else {
+        _ticTacToeTurn = _ticTacToeTurn == 1 ? 2 : 1;
+      }
+    });
   }
 
   void _resetConnectFour() {
@@ -153,6 +195,8 @@ class _MultifunctionalBoardWidgetState
             child: Row(
               children: [
                 _buildModePill('🎯 Full Board', BacksideGameMode.fullBoard),
+                _buildModePill('❌⭕ Noughts & Crosses', BacksideGameMode.noughtsAndCrosses),
+                _buildModePill('📄 Printable Front Side', BacksideGameMode.printableBoard),
                 _buildModePill('🔴 Four in a Row', BacksideGameMode.fyraIRad),
                 _buildModePill('🎲 Backgammon', BacksideGameMode.backgammon),
                 _buildModePill('📝 Yatzy', BacksideGameMode.yatzy),
@@ -215,6 +259,10 @@ class _MultifunctionalBoardWidgetState
     switch (_selectedMode) {
       case BacksideGameMode.fullBoard:
         return _buildFullBoardView();
+      case BacksideGameMode.noughtsAndCrosses:
+        return _buildNoughtsAndCrossesInteractiveView();
+      case BacksideGameMode.printableBoard:
+        return _buildPrintableBoardView();
       case BacksideGameMode.fyraIRad:
         return _buildFyraIRadInteractiveView();
       case BacksideGameMode.backgammon:
@@ -276,6 +324,231 @@ class _MultifunctionalBoardWidgetState
           ),
         ),
       ],
+    );
+  }
+
+  /// Noughts & Crosses (Corner Game from Printable Sketch)
+  Widget _buildNoughtsAndCrossesInteractiveView() {
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFF673AB7).withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: const Color(0xFF673AB7), width: 2),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Noughts & Crosses (Corner Game)',
+                      style: GoogleFonts.comicNeue(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFF311B92),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      'Tic-Tac-Toe in top-right corner with candy chips',
+                      style: GoogleFonts.comicNeue(
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF5E35B1),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: () => setState(_resetTicTacToe),
+                icon: const Icon(Icons.refresh_rounded),
+                color: const Color(0xFF311B92),
+                tooltip: 'Restart',
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h),
+
+          // 3x3 Tic-Tac-Toe Grid
+          Container(
+            padding: EdgeInsets.all(10.w),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
+              border: Border.all(color: const Color(0xFFD1C4E9), width: 2),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 10.r,
+                  offset: Offset(0, 4.h),
+                ),
+              ],
+            ),
+            child: SizedBox(
+              width: 210.w,
+              height: 210.w,
+              child: GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 9,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemBuilder: (context, idx) {
+                  final cell = _ticTacToeGrid[idx];
+                  return GestureDetector(
+                    onTap: () => _tapTicTacToe(idx),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: cell == 1
+                            ? const Color(0xFFFFEBEE)
+                            : cell == 2
+                                ? const Color(0xFFFFFDE7)
+                                : const Color(0xFFF5F5F5),
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(
+                          color: cell == 1
+                              ? const Color(0xFFE53935)
+                              : cell == 2
+                                  ? const Color(0xFFFBC02D)
+                                  : const Color(0xFFE0E0E0),
+                          width: 1.8,
+                        ),
+                      ),
+                      child: Center(
+                        child: cell == 1
+                            ? Text(
+                                '🔴',
+                                style: TextStyle(fontSize: 26.sp),
+                              )
+                            : cell == 2
+                                ? Text(
+                                    '🟡',
+                                    style: TextStyle(fontSize: 26.sp),
+                                  )
+                                : null,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 10.h),
+
+          // Status & Winner text
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+            decoration: BoxDecoration(
+              color: _ticTacToeWinner != null
+                  ? const Color(0xFFFFD54F)
+                  : const Color(0xFFEDE7F6),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Text(
+              _ticTacToeWinner != null
+                  ? '🎉 $_ticTacToeWinner'
+                  : 'Turn: ${_ticTacToeTurn == 1 ? "🔴 Red Candy" : "🟡 Yellow Candy"}',
+              style: GoogleFonts.comicNeue(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w900,
+                color: const Color(0xFF311B92),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Printable Front Side Board View
+  Widget _buildPrintableBoardView() {
+    return Container(
+      padding: EdgeInsets.all(10.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: const Color(0xFF8D6E63).withValues(alpha: 0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '📄 Printable Board (Front Side)',
+                  style: GoogleFonts.comicNeue(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w900,
+                    color: const Color(0xFF4E342E),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF43A047),
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Text(
+                  'Print Ready',
+                  style: GoogleFonts.comicNeue(
+                    fontSize: 10.5.sp,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 6.h),
+          Text(
+            'The board front side formatted for print: 6 color spokes connecting to center Trivial Pursuit pie, START ZONE in bottom-left, and Noughts & Crosses in top-right corner!',
+            style: GoogleFonts.comicNeue(
+              fontSize: 11.5.sp,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF5D4037),
+            ),
+          ),
+          SizedBox(height: 10.h),
+          InteractiveViewer(
+            minScale: 1.0,
+            maxScale: 3.5,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: Image.asset(
+                kPrintableBoardFrontside,
+                width: double.infinity,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          SizedBox(height: 6.h),
+          Center(
+            child: Text(
+              'Pinch to zoom printable layout & symbols',
+              style: GoogleFonts.comicNeue(
+                fontSize: 11.sp,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF8D6E63),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

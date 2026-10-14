@@ -143,13 +143,13 @@ class BoardTileModel extends Equatable {
         baseColor: Color(0xFFEF5350), // Red Candy
       ),
 
-      // 8: Challenge (Sten Sax Påse)
+      // 8: Challenge (Luffarschack / Noughts & Crosses)
       BoardTileModel(
         index: 8,
         type: BoardTileType.challenge,
-        title: 'Rock Paper Scissors',
-        swedishTitle: 'Sten Sax Påse',
-        challenge: findChallenge('sten_sax_pase'),
+        title: 'Noughts & Crosses',
+        swedishTitle: 'Luffarschack',
+        challenge: findChallenge('luffarschack'),
         baseColor: const Color(0xFF42A5F5),
       ),
 

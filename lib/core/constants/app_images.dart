@@ -23,6 +23,16 @@ const String kMultifunctionalBoardBackside =
     'assets/images/multifunctional_board_backside.png';
 const String kMultifunctionalBoardSketch =
     'assets/images/multifunctional_board_sketch.png';
+const String kPrintableBoardFrontside =
+    'assets/images/printable_board_frontside.png';
+
+// Actual Candies In The Bag (Godisar)
+const String kCandySnurraKlubba = 'assets/images/candy_snurra_klubba.png';
+const String kCandyAtaSnore = 'assets/images/candy_ata_snore.png';
+const String kCandyChipsStack = 'assets/images/candy_chips_stack.png';
+const String kCandyContainerCup = 'assets/images/candy_container_cup.png';
+const String kCandyFlavorCubes = 'assets/images/candy_flavor_cubes.png';
+const String kCandySuperSour = 'assets/images/candy_super_sour.png';
 
 // Home Screen 3D Assets
 const String kHomeHeroKids = 'assets/images/home_hero_kids.png';

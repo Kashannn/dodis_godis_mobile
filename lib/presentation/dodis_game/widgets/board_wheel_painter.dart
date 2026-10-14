@@ -68,17 +68,15 @@ class BoardWheelPainter extends CustomPainter {
       canvas.drawCircle(beadPos, 4.5, beadPaint);
     }
 
-    // 4. Central Rainbow Spinner Wheel (8 wedges)
-    const wedgeCount = 8;
+    // 4. Central Trivial Pursuit Compatible Wheel (6 wedges matching sketch)
+    const wedgeCount = 6;
     final wedgeColors = [
-      const Color(0xFF42A5F5), // Blue
-      const Color(0xFFFFEE58), // Yellow
-      const Color(0xFF66BB6A), // Green
-      const Color(0xFFFFA726), // Orange
-      const Color(0xFFEF5350), // Red
-      const Color(0xFFEC407A), // Pink
-      const Color(0xFFAB47BC), // Purple
-      const Color(0xFF26C6DA), // Cyan
+      const Color(0xFF1E88E5), // Blue (Geography)
+      const Color(0xFFFBC02D), // Yellow (History)
+      const Color(0xFF43A047), // Green (Science & Nature)
+      const Color(0xFFFB8C00), // Orange (Sports & Leisure)
+      const Color(0xFFE53935), // Red / Pink (Wildcard / General)
+      const Color(0xFF8E24AA), // Purple (Arts & Entertainment)
     ];
 
     for (int i = 0; i < wedgeCount; i++) {
@@ -99,14 +97,48 @@ class BoardWheelPainter extends CustomPainter {
 
       // Wedge divider line
       final dividerPaint = Paint()
-        ..color = Colors.white.withValues(alpha: 0.6)
+        ..color = Colors.white.withValues(alpha: 0.8)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.5;
+        ..strokeWidth = 2.0;
       final lineEnd = Offset(
         center.dx + wheelRadius * cos(startAngle),
         center.dy + wheelRadius * sin(startAngle),
       );
       canvas.drawLine(center, lineEnd, dividerPaint);
+    }
+
+    // 4b. 6 Spoke Connecting Tracks Radiating Outwards to the 6 Hubs (from client sketch)
+    for (int s = 0; s < 6; s++) {
+      final spokeAngle = (s * 2 * pi / 6) - (pi / 2);
+      final spokeStart = Offset(
+        center.dx + wheelRadius * cos(spokeAngle),
+        center.dy + wheelRadius * sin(spokeAngle),
+      );
+      final spokeEnd = Offset(
+        center.dx + (trackRadius - 16) * cos(spokeAngle),
+        center.dy + (trackRadius - 16) * sin(spokeAngle),
+      );
+
+      // Track spoke line
+      final spokePaint = Paint()
+        ..color = const Color(0xFFD7CCC8)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.5;
+      canvas.drawLine(spokeStart, spokeEnd, spokePaint);
+
+      // Intermediate small candy spots along each spoke (like in sketch)
+      for (double t = 0.35; t <= 0.75; t += 0.35) {
+        final circlePos = Offset.lerp(spokeStart, spokeEnd, t)!;
+        final spokeCircleBg = Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.fill;
+        final spokeCircleBorder = Paint()
+          ..color = const Color(0xFFBCAAA4)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5;
+        canvas.drawCircle(circlePos, 5.0, spokeCircleBg);
+        canvas.drawCircle(circlePos, 5.0, spokeCircleBorder);
+      }
     }
 
     // Golden wheel border
@@ -238,6 +270,10 @@ class BoardWheelPainter extends CustomPainter {
         _draw3DPawn(canvas, pawnPos, pawnColor, isTurn);
       }
     });
+
+    // 7. Corner Games & Zones (Matching Hand-Drawn Printable Sketch)
+    _drawNoughtsAndCrossesCorner(canvas, size);
+    _drawStartZoneCorner(canvas, size);
   }
 
   /// 1. Blank circular plate where candy from the bag is placed
@@ -569,6 +605,152 @@ class BoardWheelPainter extends CustomPainter {
       ..color = Colors.white.withValues(alpha: 0.85)
       ..style = PaintingStyle.fill;
     canvas.drawCircle(headCenter + const Offset(-2, -2.5), 1.6, glintPaint);
+  }
+
+  /// Corner 1 (Top-Right): Noughts & Crosses (Tic-Tac-Toe / Luffarschack) from printable sketch
+  void _drawNoughtsAndCrossesCorner(Canvas canvas, Size size) {
+    if (size.width < 180) return;
+    final boxSize = (size.width * 0.155).clamp(38.0, 56.0);
+    final cornerRect = Rect.fromLTWH(
+      size.width - boxSize - 6,
+      6,
+      boxSize,
+      boxSize,
+    );
+
+    // Background tile
+    final bgPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    final borderPaint = Paint()
+      ..color = const Color(0xFF8D6E63)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.4;
+    final rrect = RRect.fromRectAndRadius(cornerRect, const Radius.circular(8));
+    canvas.drawRRect(rrect, bgPaint);
+    canvas.drawRRect(rrect, borderPaint);
+
+    // 3x3 Grid lines
+    final gridPaint = Paint()
+      ..color = const Color(0xFF8D6E63).withValues(alpha: 0.8)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
+
+    final step = boxSize / 3;
+    // Vertical lines
+    canvas.drawLine(
+      Offset(cornerRect.left + step, cornerRect.top + 3),
+      Offset(cornerRect.left + step, cornerRect.bottom - 3),
+      gridPaint,
+    );
+    canvas.drawLine(
+      Offset(cornerRect.left + step * 2, cornerRect.top + 3),
+      Offset(cornerRect.left + step * 2, cornerRect.bottom - 3),
+      gridPaint,
+    );
+    // Horizontal lines
+    canvas.drawLine(
+      Offset(cornerRect.left + 3, cornerRect.top + step),
+      Offset(cornerRect.right - 3, cornerRect.top + step),
+      gridPaint,
+    );
+    canvas.drawLine(
+      Offset(cornerRect.left + 3, cornerRect.top + step * 2),
+      Offset(cornerRect.right - 3, cornerRect.top + step * 2),
+      gridPaint,
+    );
+
+    // Miniature candy chips X & O in the grid
+    final xPaint = Paint()
+      ..color = const Color(0xFFE53935)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8;
+    final oPaint = Paint()
+      ..color = const Color(0xFFFBC02D)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8;
+
+    // Center cell has O
+    canvas.drawCircle(
+      Offset(cornerRect.left + step * 1.5, cornerRect.top + step * 1.5),
+      step * 0.28,
+      oPaint,
+    );
+
+    // Top-left cell has X
+    final xHalf = step * 0.24;
+    final cX = cornerRect.left + step * 0.5;
+    final cY = cornerRect.top + step * 0.5;
+    canvas.drawLine(Offset(cX - xHalf, cY - xHalf), Offset(cX + xHalf, cY + xHalf), xPaint);
+    canvas.drawLine(Offset(cX + xHalf, cY - xHalf), Offset(cX - xHalf, cY + xHalf), xPaint);
+
+    // Small arrow pointing toward the board track
+    final arrowPaint = Paint()
+      ..color = const Color(0xFF8D6E63)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+    canvas.drawLine(
+      Offset(cornerRect.left - 2, cornerRect.bottom - 4),
+      Offset(cornerRect.left - 9, cornerRect.bottom + 4),
+      arrowPaint,
+    );
+  }
+
+  /// Corner 2 (Bottom-Left): START FÄLT (Start Zone with 4 player color tokens) from printable sketch
+  void _drawStartZoneCorner(Canvas canvas, Size size) {
+    if (size.width < 180) return;
+    final boxSize = (size.width * 0.155).clamp(38.0, 56.0);
+    final cornerRect = Rect.fromLTWH(
+      6,
+      size.height - boxSize - 6,
+      boxSize,
+      boxSize,
+    );
+
+    final bgPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    final borderPaint = Paint()
+      ..color = const Color(0xFF388E3C)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.4;
+    final rrect = RRect.fromRectAndRadius(cornerRect, const Radius.circular(8));
+    canvas.drawRRect(rrect, bgPaint);
+    canvas.drawRRect(rrect, borderPaint);
+
+    // 4 Player colored holder circles (2x2)
+    final tokenColors = [
+      const Color(0xFF1E88E5), // Blue
+      const Color(0xFFE53935), // Red
+      const Color(0xFF43A047), // Green
+      const Color(0xFFFBC02D), // Yellow
+    ];
+    final tokenRadius = boxSize * 0.15;
+    final stepX = boxSize * 0.35;
+    final stepY = boxSize * 0.35;
+    final startX = cornerRect.left + boxSize * 0.32;
+    final startY = cornerRect.top + boxSize * 0.32;
+
+    for (int t = 0; t < 4; t++) {
+      final col = t % 2;
+      final row = t ~/ 2;
+      final pos = Offset(startX + col * stepX, startY + row * stepY);
+      final tPaint = Paint()
+        ..color = tokenColors[t]
+        ..style = PaintingStyle.fill;
+      canvas.drawCircle(pos, tokenRadius, tPaint);
+    }
+
+    // Small arrow pointing into the board
+    final arrowPaint = Paint()
+      ..color = const Color(0xFF388E3C)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+    canvas.drawLine(
+      Offset(cornerRect.right + 2, cornerRect.top - 2),
+      Offset(cornerRect.right + 8, cornerRect.top - 8),
+      arrowPaint,
+    );
   }
 
   @override
